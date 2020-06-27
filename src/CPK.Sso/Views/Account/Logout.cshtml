@@ -1,0 +1,21 @@
+﻿@model CPK.Sso.Models.AccountViewModels.LogoutViewModel
+
+<div class="container logout-page">
+    <div class="page-header">
+        <h1>Выход</h1>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <p>Вы уверены что хотите выйти?</p>
+            <form asp-action="Logout">
+                <input type="hidden" name="logoutId" value="@Model.LogoutId"  />
+                <fieldset>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Да</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

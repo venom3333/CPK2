@@ -1,0 +1,61 @@
+image: docker:19.03.1
+
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_TLS_CERTDIR: ""
+  API_IMG_LATEST: ${CI_REGISTRY_PATH}CPK-api:latest
+  API_IMG_TAG: ${CI_REGISTRY_PATH}CPK-api:$CI_COMMIT_REF_SLUG
+  BLAZOR_SPA_LATEST: ${CI_REGISTRY_PATH}CPK-spa-blazor:latest
+  BLAZOR_SPA_IMG_TAG: ${CI_REGISTRY_PATH}CPK-spa-blazor:$CI_COMMIT_REF_SLUG
+  SSO_IMG_LATEST: ${CI_REGISTRY_PATH}CPK-sso:latest
+  SSO_IMG_TAG: ${CI_REGISTRY_PATH}CPK-sso:$CI_COMMIT_REF_SLUG
+
+services:
+  - docker:19.03.1-dind
+
+stages:
+  - deploy_latest
+  - deploy_tag
+  - test
+
+before_script:
+  - echo $CI_COMMIT_SHA
+  - echo $CI_COMMIT_REF_SLUG
+  - echo $API_IMG_LATEST
+  - echo $API_IMG_TAG
+  - echo $BLAZOR_SPA_LATEST
+  - echo $BLAZOR_SPA_IMG_TAG
+  - echo $SSO_IMG_LATEST
+  - echo $SSO_IMG_TAG
+
+deploy_tag:
+  stage: deploy_tag
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_PATH
+    - docker build -t $API_IMG_TAG -f ./src/CPK.Api/Dockerfile .
+    - docker build -t $BLAZOR_SPA_IMG_TAG -f ./src/CPK.Spa.BlazorWasm/Server/Dockerfile .
+    - docker build -t $SSO_IMG_TAG -f ./src/CPK.Sso/Dockerfile .
+    - docker push $API_IMG_TAG
+    - docker push $BLAZOR_SPA_IMG_TAG
+    - docker push $SSO_IMG_TAG
+  only:
+    - tags
+
+deploy_latest:
+  stage: deploy_latest
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_PATH
+    - docker build -t $API_IMG_LATEST -f ./src/CPK.Api/Dockerfile .
+    - docker build -t $BLAZOR_SPA_LATEST -f ./src/CPK.Spa.BlazorWasm/Server/Dockerfile .
+    - docker build -t $SSO_IMG_LATEST -f ./src/CPK.Sso/Dockerfile .
+    - docker push $API_IMG_LATEST
+    - docker push $BLAZOR_SPA_LATEST
+    - docker push $SSO_IMG_LATEST
+  only:
+    - master
+    
+test:
+    image: mcr.microsoft.com/dotnet/core/sdk:3.1-buster
+    stage: test
+    script:
+        - "dotnet test ./CPK.sln"

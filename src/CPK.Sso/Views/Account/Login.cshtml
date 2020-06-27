@@ -1,0 +1,76 @@
+﻿@model CPK.Sso.Models.AccountViewModels.LoginViewModel
+@using CPK.Sso.Configuration
+
+@{
+    ViewData["Title"] = "Log in";
+}
+@* <div class="brand-header-block"> *@
+@*     <ul class="container"> *@
+@*         <li><a asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Регистрация</a></li> *@
+@*         <li class="active" style="margin-right: 65px;">Вход</li> *@
+@*     </ul> *@
+@* </div> *@
+<div class="container account-login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <section>
+                <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                    <input type="hidden" asp-for="ReturnUrl" />
+                    <h4>Уже зарегистрированы?</h4>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label form-label"></label>
+                        <input asp-for="Email" class="form-control form-input form-input-center" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label form-label"></label>
+                        <input asp-for="Password" class="form-control form-input form-input-center" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="RememberMe">
+                                <input asp-for="RememberMe" />
+                                @Html.DisplayNameFor(m => m.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">&nbsp;Войти&nbsp;</button>
+                    </div>
+                    <p>
+                        <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Регистрация нового пользователя</a>
+                    </p>
+                    <p>
+                        <a asp-action="ForgotPassword" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Забыли пароль?</a>
+                    </p>
+                    @if (Config.EnvironmentNameEnum == EnvironmentNameEnum.Development)
+                    {
+                    <p>
+                        Note that for demo purposes you don't need to register and can login with these credentials:
+                    </p>
+                    <p><b>User</b></p>
+                    <p>
+                        User:     <b>demouser@microsoft.com</b>
+                    </p>
+                    <p>
+                        Password: <b>Pass@word1</b>
+                    </p>
+                    <p><b>Admin</b></p>
+                    <p>
+                        User:     <b>demoadmin@microsoft.com</b>
+                    </p>
+                    <p>
+                        Password: <b>Pass@word2</b>
+                    </p>
+                    }
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

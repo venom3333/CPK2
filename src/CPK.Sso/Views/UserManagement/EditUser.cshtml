@@ -1,0 +1,53 @@
+﻿@model CPK.Sso.Models.ManageViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Редактирование пользователя";
+}
+
+<div class="container delete-user-container">
+    <div class="page-header">
+        <h1>Редактирование пользователя @Model.UserName</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="EditUser">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserName" class="control-label"></label>
+                    <input type="hidden" asp-for="UserName" class="form-control"/>
+                    <div class="form-control">@Model.UserName</div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserId" class="control-label"></label>
+                    <input type="hidden" asp-for="UserId" class="form-control"/>
+                    <div class="form-control">@Model.UserId</div>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="EmailConfirmed"/> @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AvailableRoles" class="control-label"></label><br>
+                    @foreach (var role in Model.AvailableRoles)
+                    {
+                        <input type="checkbox" name="roles" value="@role"
+                               @(Model.Roles.Contains(role) ? "checked=\"checked\"" : "")/>
+                        @role
+                        <br/>
+                    }
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Сохранить" class="btn btn-primary"/>
+                    <a asp-action="Index">Отмена</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

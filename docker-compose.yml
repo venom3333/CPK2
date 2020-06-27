@@ -1,0 +1,58 @@
+version: '3.4'
+# Создание сертификатов самоподписных (вообще лучше пароль и путь в UserSecrets указывать):
+# dotnet --info
+# dotnet dev-certs https --trust
+# dotnet dev-certs https -ep $env:APPDATA\ASP.NET\Https\CPK-api.pfx -p 1234Qwert
+# dotnet dev-certs https -ep $env:APPDATA\ASP.NET\Https\CPK-spa-blazor.pfx -p 1234Qwert
+# dotnet dev-certs https -ep $env:APPDATA\ASP.NET\Https\CPK-sso.pfx -p 1234Qwert
+# Get-ChildItem  -Recurse .\| Where-Object { $_.PSIsContainer }| Where-Object {$_.Name -match "^(bin|obj)$" }| Where-Object {$_.FullName -notmatch ".+node_modules.+"}| Remove-Item -Force -Recurse
+# find ./ -regex "^(?!.+\/node_modules\/.*)((.+\/bin\/.*)|(.+\/obj\/.*))$" -type d -exec rm -rf {} \;
+services:  
+  blazoreshop.sso:
+    image: alrosait/CPK-sso:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=8000
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1234Qwert
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/CPK-sso.pfx
+      - ApiSwaggerClient=http://localhost:7001
+      - SpaBlazorClient=http://localhost:7003 
+      - ConnectionString=Server=sqldata;Database=BlazorEShop.Sso.Prod;User Id=sa;Password=Pass@word;
+    ports:
+      - "7000:80"
+      - "8000:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  blazoreshop.api:
+    image: alrosait/CPK-api:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - IdentityUrlExternal=https://localhost:8000
+      - Authority=http://blazoreshop.sso
+      - ConnectionString=Host=pgdata;Port=5432;Database=BlazorEShop.Api.Prod;Username=postgres;Password=postgres;
+    ports:
+      - "7001:80"
+
+  blazoreshop.spa.blazorwasm.server:
+    image: alrosait/CPK-spa-blazor:latest
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - SsoUri=https://localhost:8000
+      - ApiUri=http://localhost:7001
+    ports:
+     - "7003:80"
+
+  redisdata:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+      - "32768:32768"
+    volumes: 
+      - eshop-redis:/data
+
+volumes:
+  eshop-redis:
+      external: false

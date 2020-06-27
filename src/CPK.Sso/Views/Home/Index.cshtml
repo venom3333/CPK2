@@ -1,0 +1,38 @@
+﻿@using CPK.Sso.Configuration
+@model IEnumerable<System.Security.Claims.Claim>
+<div class="welcome-page container">
+    <div class="row page-header">
+        <div class="col-sm-10">
+            <h1>
+                <img class="icon" src="~/logo-cpk.png">
+                Сервер идентификации
+            </h1>
+        </div>
+    </div>
+
+    @if(!Config.IsProduction){
+    <div><ul>
+       @foreach (var c in Model)
+       {
+           <li>@($"{c.Value}:{c.Type}:{c.ValueType}")</li>
+       }
+    </ul></div>
+    <div class="row">
+        <div class="col-sm-8">
+            <p>
+                IdentityServer
+                <a href="~/.well-known/openid-configuration">discovery document</a>
+            </p>
+        </div>
+    </div>
+@*     <div class="row"> *@
+@*         <div class="col-sm-8"> *@
+@*             <p> *@
+@*                 Here are links to the *@
+@*                 <a href="https://github.com/identityserver/IdentityServer4">source code repository</a>, *@
+@*                 and <a href="https://github.com/identityserver/IdentityServer4.Samples">ready to use samples</a>. *@
+@*             </p> *@
+@*         </div> *@
+@*     </div> *@
+    }
+</div>
