@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using CPK.Sso.Configuration;
 using CPK.Sso.Models;
 using CPK.Sso.Models.AccountViewModels;
@@ -16,8 +18,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CPK.Sso.Controllers
 {
@@ -87,24 +91,7 @@ namespace CPK.Sso.Controllers
                 {
                     if (user.EmailConfirmed)
                     {
-                        var tokenLifetime = _configuration.GetValue("TokenLifetimeMinutes", 120);
-
-                        var props = new AuthenticationProperties
-                        {
-                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(tokenLifetime),
-                            AllowRefresh = true,
-                            RedirectUri = model.ReturnUrl
-                        };
-
-                        if (model.RememberMe)
-                        {
-                            var permanentTokenLifetime = _configuration.GetValue("PermanentTokenLifetimeDays", 365);
-
-                            props.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(permanentTokenLifetime);
-                            props.IsPersistent = true;
-                        }
-
-                        await _loginService.SignInAsync(user, props);
+                        await SigninAsync(user, model.ReturnUrl, model.RememberMe).ConfigureAwait(false);
 
                         // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
                         if (_interaction.IsValidReturnUrl(model.ReturnUrl))
@@ -132,6 +119,28 @@ namespace CPK.Sso.Controllers
             ViewData["ReturnUrl"] = model.ReturnUrl;
 
             return View(vm);
+        }
+
+        private async Task SigninAsync(ApplicationUser user, string returnUrl, bool rememberMe)
+        {
+            var tokenLifetime = _configuration.GetValue("TokenLifetimeMinutes", 120);
+
+            var props = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(tokenLifetime),
+                AllowRefresh = true,
+                RedirectUri = returnUrl
+            };
+
+            if (rememberMe)
+            {
+                var permanentTokenLifetime = _configuration.GetValue("PermanentTokenLifetimeDays", 365);
+
+                props.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(permanentTokenLifetime);
+                props.IsPersistent = true;
+            }
+
+            await _loginService.SignInAsync(user, props);
         }
 
         /// <summary>
@@ -251,8 +260,9 @@ namespace CPK.Sso.Controllers
 
                 var userDto = await _userManager.FindByNameAsync(user.UserName).ConfigureAwait(false);
                 if (userDto != null
-                    && !userDto.EmailConfirmed                                                                       // не подтвержден
-                    && userDto.Created < DateTime.Now - TimeSpan.FromHours(Config.USER_MAIL_CONFIRM_TIME_HOURS))     // и висит больше суток
+                    && !userDto.EmailConfirmed // не подтвержден
+                    && userDto.Created < DateTime.Now - TimeSpan.FromHours(Config.USER_MAIL_CONFIRM_TIME_HOURS)
+                ) // и висит больше суток
                 {
                     var deleteResult = await _userManager.DeleteAsync(userDto).ConfigureAwait(false);
                     if (deleteResult.Errors.Any())
@@ -273,10 +283,15 @@ namespace CPK.Sso.Controllers
 
                 userDto = await _userManager.FindByNameAsync(user.UserName).ConfigureAwait(false);
                 await _userManager.AddToRoleAsync(userDto, "user").ConfigureAwait(false);
-            }
 
-            // отправка емейла для подтверждения
-            // ...
+                // отправка емейла для подтверждения (в линк закладываем id юзера, hashCheck - хэш пароля, returnUrl - урл магазина, куда редиректнем после логина)
+                // ...
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(userDto).ConfigureAwait(false);
+                var link = GetConfirmationLink(userDto.Id, token, returnUrl);
+                // await _emailSender.SendAsync(user.Id,
+                //     "Подтверждение регистрации",
+                //     $"Пожалуйста подтвердите регистрацию кликнув по ссылке: <a href=\"{link}\">Подтвердить</a>");
+            }
 
             if (returnUrl != null)
             {
@@ -289,6 +304,19 @@ namespace CPK.Sso.Controllers
             }
 
             return RedirectToAction("index", "Home");
+        }
+
+        private string GetConfirmationLink(string id, string token, string returnUrl = null)
+        {
+            var confirmationUrl = Url.Action(
+                "ConfirmEmail",
+                "Account",
+                new {id, token, returnUrl},
+                protocol: HttpScheme.Https.ToString()
+            );
+
+            Log.Information($"Confirmation URL: {confirmationUrl}");
+            return confirmationUrl;
         }
 
         [HttpGet]
@@ -403,6 +431,41 @@ namespace CPK.Sso.Controllers
             }
 
             return RedirectToAction("index", "Home");
+        }
+
+        /// <summary>
+        /// Подтверждение email
+        /// </summary>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail(string id, string token, string returnUrl = null)
+        {
+            if (!string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(token))
+            {
+                // Проверяем хэш у юзера по id
+                var user = await _userManager.FindByIdAsync(id).ConfigureAwait(false);
+                // если все ок, логиним и редиректим по returnUrl
+                var confirmEmailResult = await _userManager.ConfirmEmailAsync(user, token).ConfigureAwait(false);
+                if (confirmEmailResult.Errors.Any())
+                {
+                    AddErrors(confirmEmailResult);
+                    return RedirectToAction("login", "Account", new {returnUrl = returnUrl});
+                }
+
+                await SigninAsync(user, returnUrl, false).ConfigureAwait(false);
+
+                // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
+                if (_interaction.IsValidReturnUrl(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
+                return Redirect("~/");
+            }
+
+            // если нет, редиректим на страницу логина
+            Log.Error($"Ошибка подтверждения email: userID {id} hashCheck {token}");
+            return RedirectToAction("login", "Account", new {returnUrl = returnUrl});
         }
     }
 }
