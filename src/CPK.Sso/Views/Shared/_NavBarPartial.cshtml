@@ -1,18 +1,9 @@
 ﻿@using CPK.Sso.Models
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
-@{
-    var isAdmin = false;
-    if (SignInManager.IsSignedIn(User))
-    {
-        isAdmin = await UserManager.IsInRoleAsync(await UserManager.GetUserAsync(User), RolesEnum.admin.ToString());
-    }
-}
 
-<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
     <div class="container">
         <li class="navbar-brand">
+            <img class="icon align-content-sm-center col-sm-12 col-lg-3" src="~/logo-cpk.png" alt="Logo">
             <a asp-controller="Home" asp-action="ReturnToOriginalApplication" asp-route-returnUrl="@ViewData["ReturnUrl"]">Вернуться в приложение</a>
         </li>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -23,15 +14,6 @@
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index" asp-route-returnurl="/">Домой</a>
                 </li>
-                @if (isAdmin)
-                {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="UserManagement" asp-action="Index" asp-route-returnurl="/">Пользователи</a>
-                    </li>
-                }
-                @*<li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Consent" asp-action="Index" asp-route-returnurl="/">CONSENT</a>
-                    </li>*@
             </ul>
         </div>
         @await Html.PartialAsync("_LoginPartial")

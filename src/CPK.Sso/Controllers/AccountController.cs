@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CPK.Sso.Configuration;
 using CPK.Sso.Models;
 using CPK.Sso.Models.AccountViewModels;
 using CPK.Sso.Models.ManageViewModels;
@@ -84,37 +85,45 @@ namespace CPK.Sso.Controllers
 
                 if (await _loginService.ValidateCredentials(user, model.Password))
                 {
-                    var tokenLifetime = _configuration.GetValue("TokenLifetimeMinutes", 120);
-
-                    var props = new AuthenticationProperties
+                    if (user.EmailConfirmed)
                     {
-                        ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(tokenLifetime),
-                        AllowRefresh = true,
-                        RedirectUri = model.ReturnUrl
-                    };
+                        var tokenLifetime = _configuration.GetValue("TokenLifetimeMinutes", 120);
 
-                    if (model.RememberMe)
-                    {
-                        var permanentTokenLifetime = _configuration.GetValue("PermanentTokenLifetimeDays", 365);
+                        var props = new AuthenticationProperties
+                        {
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(tokenLifetime),
+                            AllowRefresh = true,
+                            RedirectUri = model.ReturnUrl
+                        };
 
-                        props.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(permanentTokenLifetime);
-                        props.IsPersistent = true;
+                        if (model.RememberMe)
+                        {
+                            var permanentTokenLifetime = _configuration.GetValue("PermanentTokenLifetimeDays", 365);
+
+                            props.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(permanentTokenLifetime);
+                            props.IsPersistent = true;
+                        }
+
+                        await _loginService.SignInAsync(user, props);
+
+                        // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
+                        if (_interaction.IsValidReturnUrl(model.ReturnUrl))
+                        {
+                            return Redirect(model.ReturnUrl);
+                        }
+
+                        return Redirect("~/");
                     }
-
-                    ;
-
-                    await _loginService.SignInAsync(user, props);
-
-                    // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
-                    if (_interaction.IsValidReturnUrl(model.ReturnUrl))
+                    else
                     {
-                        return Redirect(model.ReturnUrl);
+                        ModelState.AddModelError("",
+                            $"На {model.Email} выслано письмо с подтверждением регистрации. Вы должны подтвердить регистрацию прежде чем сможете войти");
                     }
-
-                    return Redirect("~/");
                 }
-
-                ModelState.AddModelError("", "Invalid username or password.");
+                else
+                {
+                    ModelState.AddModelError("", "Не верные логин или пароль");
+                }
             }
 
             // something went wrong, show form with error
@@ -212,7 +221,6 @@ namespace CPK.Sso.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -240,17 +248,35 @@ namespace CPK.Sso.Controllers
                     //PhoneNumber = model.User.PhoneNumber,
                     //SecurityNumber = model.User.SecurityNumber
                 };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Errors.Count() > 0)
+
+                var userDto = await _userManager.FindByNameAsync(user.UserName).ConfigureAwait(false);
+                if (userDto != null
+                    && !userDto.EmailConfirmed                                                                       // не подтвержден
+                    && userDto.Created < DateTime.Now - TimeSpan.FromHours(Config.USER_MAIL_CONFIRM_TIME_HOURS))     // и висит больше суток
+                {
+                    var deleteResult = await _userManager.DeleteAsync(userDto).ConfigureAwait(false);
+                    if (deleteResult.Errors.Any())
+                    {
+                        AddErrors(deleteResult);
+                        // If we got this far, something failed, redisplay form
+                        return View(model);
+                    }
+                }
+
+                var result = await _userManager.CreateAsync(user, model.Password).ConfigureAwait(false);
+                if (result.Errors.Any())
                 {
                     AddErrors(result);
                     // If we got this far, something failed, redisplay form
                     return View(model);
                 }
 
-                var userDto = await _userManager.FindByNameAsync(user.UserName);
-                await _userManager.AddToRoleAsync(userDto, "user");
+                userDto = await _userManager.FindByNameAsync(user.UserName).ConfigureAwait(false);
+                await _userManager.AddToRoleAsync(userDto, "user").ConfigureAwait(false);
             }
+
+            // отправка емейла для подтверждения
+            // ...
 
             if (returnUrl != null)
             {
@@ -270,7 +296,7 @@ namespace CPK.Sso.Controllers
         {
             return View();
         }
-        
+
         private async Task<LoginViewModel> BuildLoginViewModelAsync(string returnUrl, AuthorizationRequest context)
         {
             var allowLocal = true;
@@ -343,7 +369,7 @@ namespace CPK.Sso.Controllers
 
             return RedirectToAction("index", "Home");
         }
-        
+
         // GET: /Account/ForgotPassword
         [HttpGet]
         public IActionResult ForgotPassword(string returnUrl = null)

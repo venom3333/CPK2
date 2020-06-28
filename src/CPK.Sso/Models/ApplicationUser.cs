@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace CPK.Sso.Models
@@ -6,6 +7,7 @@ namespace CPK.Sso.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        public DateTime Created { get; set; }
         //[Required]
         //public string CardNumber { get; set; }
         //[Required]

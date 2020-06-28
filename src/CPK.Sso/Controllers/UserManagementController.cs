@@ -45,7 +45,7 @@ namespace CPK.Sso.Controllers
 
             var users = await _mapper.ProjectTo<UserViewModel>(identityUsers).ToListAsync().ConfigureAwait(false);
             users.ForEach(u => { u.Roles = rolesDic[u.UserId]; });
-            return View(users);
+            return View(users.OrderBy(u => u.UserName));
         }
 
         [HttpGet]

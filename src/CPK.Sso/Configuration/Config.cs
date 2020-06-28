@@ -30,6 +30,8 @@ namespace CPK.Sso.Configuration
             }
         }
 
+        public const int USER_MAIL_CONFIRM_TIME_HOURS = 24;
+
         // ApiResources define the apis in your system
         public static IEnumerable<ApiResource> GetApis()
         {
