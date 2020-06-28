@@ -414,9 +414,21 @@ namespace CPK.Sso.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // Посылаем емейл
-                // ...
-                model.EmailSent = true;
+                var user = await _userManager.FindByNameAsync(model.Email).ConfigureAwait(false);
+                var isConfirmed = await _userManager.IsEmailConfirmedAsync(user).ConfigureAwait(false);
+                model.EmailSent = true; // В любом случае показываем сообщщение что отправили на емейл ссылку
+                if (user == null || !isConfirmed)
+                {
+                    return View(model);
+                }
+
+                // Формируем ссылку и посылаем емейл
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
+                var link = GetResetPasswordLink(user.Id, token, returnUrl);
+                // await _emailSender.SendAsync(user.Id,
+                //     "Сброс пароля",
+                //     $"Пожалуйста сбросьте свой пароль кликнув по ссылке: <a href=\"{link}\">Подтвердить</a>");
+
                 return View(model);
             }
 
@@ -431,6 +443,14 @@ namespace CPK.Sso.Controllers
             }
 
             return RedirectToAction("index", "Home");
+        }
+
+        private string GetResetPasswordLink(string userId, string token, string returnUrl)
+        {
+            var link = Url.Action("ResetPassword", "Account",
+                new {id = userId, token = token, returnUrl = returnUrl}, protocol: HttpScheme.Https.ToString());
+            Log.Information($"Reset password URL: {link}");
+            return link;
         }
 
         /// <summary>
@@ -465,7 +485,49 @@ namespace CPK.Sso.Controllers
 
             // если нет, редиректим на страницу логина
             Log.Error($"Ошибка подтверждения email: userID {id} hashCheck {token}");
-            return RedirectToAction("login", "Account", new {returnUrl = returnUrl});
+            return View("Error");
+        }
+
+        public IActionResult ResetPassword(string id, string token, string returnurl = null)
+        {
+            if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(token))
+            {
+                return View("Error");
+            }
+
+            var model = new ResetPasswordViewModel
+            {
+                UserId = id,
+                Token = token
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userManager.FindByIdAsync(model.UserId).Result;
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Token, model.Password)
+                    .ConfigureAwait(false);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Пароль успешно сброшен!";
+                    return View("Success");
+                }
+                else
+                {
+                    AddError("Ошибка при сбросе пароля! (1)");
+                    return View("Error");
+                }
+            }
+
+            AddError("Ошибка при сбросе пароля! (2)");
+            return View("Error");
         }
     }
 }
