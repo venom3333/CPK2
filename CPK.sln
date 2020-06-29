@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.ProductsModule", "src\A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Api", "src\Api\CPK.Api\CPK.Api.csproj", "{C7DD589E-5859-462C-A42C-8BF638359F7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.SharedConfiguration", "CPK.SharedConfiguration\CPK.SharedConfiguration.csproj", "{036C3748-9A20-4C45-AB10-880C761AD8F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{C7DD589E-5859-462C-A42C-8BF638359F7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7DD589E-5859-462C-A42C-8BF638359F7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7DD589E-5859-462C-A42C-8BF638359F7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{036C3748-9A20-4C45-AB10-880C761AD8F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{036C3748-9A20-4C45-AB10-880C761AD8F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{036C3748-9A20-4C45-AB10-880C761AD8F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{036C3748-9A20-4C45-AB10-880C761AD8F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

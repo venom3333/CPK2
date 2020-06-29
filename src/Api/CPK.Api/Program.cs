@@ -1,5 +1,7 @@
 using System.Globalization;
+using CPK.SharedConfiguration;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 
@@ -18,6 +20,11 @@ namespace CPK.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(x => x
+                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                    .AddJsonFile($"appsettings.{SharedConfig.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                    .AddCommandLine(args)
+                    .AddEnvironmentVariables())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

@@ -74,6 +74,7 @@ namespace CPK.Sso.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtClaimTypes.Subject, user.Id),
+                new Claim(JwtClaimTypes.Name, user.UserName),
                 new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };

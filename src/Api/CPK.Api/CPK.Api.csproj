@@ -7,6 +7,10 @@
 	<ItemGroup>
     <PackageReference Include="FluentValidationGuard" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.2.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
@@ -14,11 +18,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
     <ProjectReference Include="..\CPK.BasketModule\CPK.BasketModule.csproj" />
     <ProjectReference Include="..\CPK.FilesModule\CPK.FilesModule.csproj" />
     <ProjectReference Include="..\CPK.OrdersModule\CPK.OrdersModule.csproj" />
     <ProjectReference Include="..\CPK.ProductsModule\CPK.ProductsModule.csproj" />
     <ProjectReference Include="..\CPK.SharedModule\CPK.SharedModule.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\files" />
   </ItemGroup>
 
 </Project>

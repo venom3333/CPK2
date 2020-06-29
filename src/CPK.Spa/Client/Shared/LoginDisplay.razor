@@ -11,7 +11,7 @@
 <AuthorizeView>
     <Authorized>
         <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
-        Hello, @context?.User?.Identity?.Name!
+        Вы вошли как, @context?.User?.Identity?.Name!
         <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
     </Authorized>
     <NotAuthorized>

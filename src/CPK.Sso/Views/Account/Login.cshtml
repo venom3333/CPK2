@@ -1,4 +1,5 @@
 ﻿@model CPK.Sso.Models.AccountViewModels.LoginViewModel
+@using CPK.SharedConfiguration
 @using CPK.Sso.Configuration
 
 @{
@@ -45,7 +46,7 @@
                     <p>
                         <a asp-action="ForgotPassword" asp-route-returnurl="@ViewData["ReturnUrl"]" class="text">Забыли пароль?</a>
                     </p>
-                    @if (Config.EnvironmentNameEnum == EnvironmentNameEnum.Development)
+                    @if (SharedConfig.EnvironmentNameEnum == EnvironmentNameEnum.Development)
                     {
                     <p>
                         Note that for demo purposes you don't need to register and can login with these credentials:

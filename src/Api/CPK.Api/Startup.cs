@@ -19,7 +19,7 @@ using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryAdapters;
 using CPK.ProductsModule.PrimaryPorts;
 using CPK.ProductsModule.SecondaryPorts;
-using CPK.SharedModule.Config;
+using CPK.SharedConfiguration;
 using FluentValidationGuard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

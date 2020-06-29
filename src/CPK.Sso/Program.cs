@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using CPK.SharedConfiguration;
+using CPK.Sso.Configuration;
 using CPK.Sso.Data;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
@@ -59,9 +61,11 @@ namespace CPK.Sso
 
         private static IConfiguration GetConfiguration()
         {
+            var environmentName = SharedConfig.EnvironmentName;
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables();
             return builder.Build();
         }

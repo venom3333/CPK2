@@ -9,24 +9,6 @@ namespace CPK.Sso.Configuration
 {
     public static class Config
     {
-        public static readonly string EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
-        public static bool IsProduction => EnvironmentName == "Production";
-
-        public static EnvironmentNameEnum EnvironmentNameEnum
-        {
-            get
-            {
-                return EnvironmentName switch
-                {
-                    "Production" => EnvironmentNameEnum.Production,
-                    "Staging" => EnvironmentNameEnum.Staging,
-                    "Development" => EnvironmentNameEnum.Development,
-                    _ => EnvironmentNameEnum.Development
-                };
-            }
-        }
-
         public const int UserMailConfirmTimeHours = 24;
 
         // ApiResources define the apis in your system
@@ -104,12 +86,5 @@ namespace CPK.Sso.Configuration
                 },
             };
         }
-    }
-
-    public enum EnvironmentNameEnum
-    {
-        Production,
-        Staging,
-        Development
     }
 }

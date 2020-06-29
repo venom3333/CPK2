@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CPK.SharedModule.Config
+namespace CPK.SharedConfiguration
 {
     public static class SharedConfig
     {
@@ -20,12 +20,5 @@ namespace CPK.SharedModule.Config
                 };
             }
         }
-    }
-    
-    public enum EnvironmentNameEnum
-    {
-        Production,
-        Staging,
-        Development
     }
 }

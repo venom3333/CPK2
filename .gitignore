@@ -384,4 +384,4 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /src/CPK.Sso/tempkey.rsa
-/src/CPK.Api/wwwroot/files/*
+/src/Api/CPK.Api/wwwroot/files/*

@@ -91,4 +91,8 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
+  </ItemGroup>
+
 </Project>
