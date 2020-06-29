@@ -6,6 +6,12 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.Sso", "src\CPK.Sso\CPK.Sso.csproj", "{97CE0819-5DF9-4F48-BE3C-97C6027161C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{44418340-AB2F-4741-B7F2-6D3AE057960A}"
+ProjectSection(SolutionItems) = preProject
+	.dockerignore = .dockerignore
+	.gitignore = .gitignore
+	.gitlab-ci.yml = .gitlab-ci.yml
+	docker-compose.yml = docker-compose.yml
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
