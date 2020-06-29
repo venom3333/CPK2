@@ -15,7 +15,8 @@
         <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
     </Authorized>
     <NotAuthorized>
-        <a href="authentication/login">Log in</a>
+        <a href="@RemoteAuthenticationDefaults.LoginPath">Вход</a>
+        <a href="@RemoteAuthenticationDefaults.RegisterPath">Регистрация</a>
     </NotAuthorized>
 </AuthorizeView>
 

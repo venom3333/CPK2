@@ -126,6 +126,7 @@ namespace CPK.Api
                 {
                     db.Database.Migrate();
                 }
+                /*
                 var files = scope.ServiceProvider.GetRequiredService<IFilesService>();
                 var items = scope.ServiceProvider.GetRequiredService<IProductsService>();
                 for (int i = 1; i < 10; i++)
@@ -136,6 +137,7 @@ namespace CPK.Api
                         var _ = items.Add(new Product(new Title($"image{i}"), new Money(i), new Image(imageId))).Result;
                     }
                 }
+                */
             }
             app.UseForwardedHeaders();
             app.UseSwagger();

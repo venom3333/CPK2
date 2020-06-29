@@ -65,6 +65,7 @@ namespace CPK.Spa.Client
                 x.ProviderOptions.ResponseType = "code";
                 x.ProviderOptions.DefaultScopes.Add("api");
                 x.UserOptions.RoleClaim = "role";
+                x.UserOptions.NameClaim = "name";
             });
             services.AddScoped<IHttpContext, HttpContext>();
             services.AddScoped<IApiRepository, ApiRepository>();
