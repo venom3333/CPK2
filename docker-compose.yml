@@ -8,7 +8,7 @@ version: '3.4'
 # Get-ChildItem  -Recurse .\| Where-Object { $_.PSIsContainer }| Where-Object {$_.Name -match "^(bin|obj)$" }| Where-Object {$_.FullName -notmatch ".+node_modules.+"}| Remove-Item -Force -Recurse
 # find ./ -regex "^(?!.+\/node_modules\/.*)((.+\/bin\/.*)|(.+\/obj\/.*))$" -type d -exec rm -rf {} \;
 services:  
-  blazoreshop.sso:
+  cpk.sso:
     image: alrosait/CPK-sso:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -26,17 +26,17 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
-  blazoreshop.api:
+  cpk.api:
     image: alrosait/CPK-api:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - IdentityUrlExternal=https://localhost:8000
-      - Authority=http://blazoreshop.sso
+      - Authority=http://cpk.sso
       - ConnectionString=Host=pgdata;Port=5432;Database=BlazorEShop.Api.Prod;Username=postgres;Password=postgres;
     ports:
       - "7001:80"
 
-  blazoreshop.spa.blazorwasm.server:
+  cpk.spa.server:
     image: alrosait/CPK-spa-blazor:latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -51,8 +51,8 @@ services:
       - "6379:6379"
       - "32768:32768"
     volumes: 
-      - eshop-redis:/data
+      - cpk-redis:/data
 
 volumes:
-  eshop-redis:
+  cpk-redis:
       external: false
