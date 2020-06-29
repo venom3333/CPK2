@@ -13,7 +13,17 @@ ProjectSection(SolutionItems) = preProject
 	docker-compose.yml = docker-compose.yml
 EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Contracts", "CPK.Contracts\CPK.Contracts.csproj", "{4516B46D-207F-4E15-B407-B72CD331CD46}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spa", "Spa", "{F5D0E136-BEC6-4A31-9EB7-4D6449B080F1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FAA3CF83-38E2-4F36-A2B6-01CE12587BFB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{80806BB4-9B16-423D-ABB2-EE35E7338818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Contracts", "src\CPK.Contracts\CPK.Contracts.csproj", "{E5CF830D-4CE0-46BD-9CF7-5679C196E12B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Spa.Client", "src\CPK.Spa\Client\CPK.Spa.Client.csproj", "{1CF1B7E4-AD25-453D-A031-88037C4088FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Spa.Server", "src\CPK.Spa\Server\CPK.Spa.Server.csproj", "{5F890CCC-E965-4D00-8B6C-14A4C14736E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,15 +35,27 @@ Global
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4516B46D-207F-4E15-B407-B72CD331CD46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4516B46D-207F-4E15-B407-B72CD331CD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4516B46D-207F-4E15-B407-B72CD331CD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4516B46D-207F-4E15-B407-B72CD331CD46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5CF830D-4CE0-46BD-9CF7-5679C196E12B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5CF830D-4CE0-46BD-9CF7-5679C196E12B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5CF830D-4CE0-46BD-9CF7-5679C196E12B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5CF830D-4CE0-46BD-9CF7-5679C196E12B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CF1B7E4-AD25-453D-A031-88037C4088FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CF1B7E4-AD25-453D-A031-88037C4088FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CF1B7E4-AD25-453D-A031-88037C4088FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CF1B7E4-AD25-453D-A031-88037C4088FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F890CCC-E965-4D00-8B6C-14A4C14736E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F890CCC-E965-4D00-8B6C-14A4C14736E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F890CCC-E965-4D00-8B6C-14A4C14736E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F890CCC-E965-4D00-8B6C-14A4C14736E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFFF8D5F-25DE-4C0E-9BEE-175B1E28337B}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1CF1B7E4-AD25-453D-A031-88037C4088FE} = {F5D0E136-BEC6-4A31-9EB7-4D6449B080F1}
+		{5F890CCC-E965-4D00-8B6C-14A4C14736E5} = {F5D0E136-BEC6-4A31-9EB7-4D6449B080F1}
 	EndGlobalSection
 EndGlobal

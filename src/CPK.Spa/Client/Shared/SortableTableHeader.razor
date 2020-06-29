@@ -1,0 +1,27 @@
+﻿<th @onclick="@Sort">@ChildContent<span class="@GetClass()"></span></th>
+
+@code {
+
+    public Task Sort()
+    {
+        Model.Descending = !Model.Descending;
+        return Sorted.InvokeAsync(null);
+    }
+
+    public string GetClass()
+    {
+        if (!Model.IsActive)
+            return "d-none";
+        return Model.Descending ? "oi oi-caret-bottom" : "oi oi-caret-top";
+    }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public SortableTableHeaderModel Model { get; set; }
+
+
+    [Parameter]
+    public EventCallback Sorted { get; set; }
+}

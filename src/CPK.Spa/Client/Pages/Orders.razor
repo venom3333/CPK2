@@ -1,0 +1,95 @@
+﻿@page "/orders"
+@page "/orders/{operation}"
+
+@attribute [Authorize]
+
+@inject OrdersViewModel ViewModel
+
+
+<h3>Orders</h3>
+<div>
+    <Error Model="@ViewModel.Error" />
+</div>
+@if (ViewModel.State == OrderVmState.Create)
+{
+    <EditForm EditContext="@ViewModel.OrderFormContext" OnValidSubmit="@ViewModel.Create">
+        <DataAnnotationsValidator />
+        <div class="form-group"><label class="form-label"> Sum: @ViewModel.Sum</label></div>
+        <div class="form-group">
+            <label class="form-label" for="address">Address</label>
+            <InputTextArea id="address" name="address" class="form-control" @bind-Value="@ViewModel.Address" />
+            <ValidationMessage For="@(() => ViewModel.Address)" />
+        </div>
+        <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">Save</button>
+        <button class="btn btn-default" @onclick="@(x => ViewModel.State = OrderVmState.List)">Cancel</button>
+    </EditForm>
+}
+else
+{
+    @if (ViewModel.CanCreateOrder)
+    {
+        <input type="button" class="btn btn-primary" value="Create Order" @onclick="@(x=>ViewModel.State = OrderVmState.Create)" />
+    }
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <AuthorizeView Roles="admin">
+                        <Authorized>
+                            <th>Id</th>
+                            <th>Buyer Id</th>
+                        </Authorized>
+                    </AuthorizeView>
+                    <th>Status</th>
+                    <th>Products Count</th>
+                    <th>Sum</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewModel.Model == null)
+                {
+                    <tr>
+                        <td>
+                            <em>Loading...</em>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var order in ViewModel.Model)
+                    {
+
+                        <tr>
+                            <AuthorizeView Roles="admin">
+                                <Authorized>
+                                    <td>@order.Id</td>
+                                    <td>@order.Buyer</td>
+                                </Authorized>
+                            </AuthorizeView>
+                            <td>@order.Status.ToString("G")</td>
+                            <td>@order.Lines.Sum(l => l.Quantity)</td>
+                            <td>@order.Lines.Sum(l => l.Quantity * l.Product.Price)</td>
+                            <td>@order.Address</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@functions {
+
+    [Parameter]
+    public string Operation
+    {
+        get => ViewModel.State.ToString("G");
+        set => ViewModel.ChangeState(value);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.OnInitializedAsync();
+    }
+}

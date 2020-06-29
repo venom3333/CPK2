@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using CPK.Spa.Client.Core.Services
+
+@inject NavigationManager Navigation
+@inject SignOutSessionStateManager SignOutManager
+@inject IBasketService Basket
+@implements IDisposable
+
+
+<AuthorizeView>
+    <Authorized>
+        <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
+        Hello, @context?.User?.Identity?.Name!
+        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="authentication/login">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    public long TotalItemsCount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Basket.OnBasketItemsCountChanged += Bind;
+        TotalItemsCount = Basket.ItemsCount;
+        base.OnInitialized();
+    }
+
+    public void Bind(object s, EventArgs e)
+    {
+        if (TotalItemsCount == Basket.ItemsCount)
+            return;
+        TotalItemsCount = Basket.ItemsCount;
+        this.StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Basket.OnBasketItemsCountChanged -= Bind;
+    }
+
+    private async Task BeginSignOut(MouseEventArgs args)
+    {
+        await SignOutManager.SetSignOutState();
+        Navigation.NavigateTo("authentication/logout");
+    }
+}

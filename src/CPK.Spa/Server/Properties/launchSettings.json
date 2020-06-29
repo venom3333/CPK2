@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "BlazorEShop.Spa.BlazorWasm.Server": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+      "environmentVariables": {
+        "Test1": "Test1",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "useSSL": false,
+      "applicationUrl": "http://localhost:5003"
+    }
+  }
+}

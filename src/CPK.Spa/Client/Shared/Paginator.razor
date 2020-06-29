@@ -1,0 +1,80 @@
+﻿<ul class="pagination justify-content-center mx-3 my-3">
+    <li class="page-item">
+        <a class="page-link" href="#" @onclick="@(async e => await LoadPage(First))" @onclick:preventDefault>&lt;&lt;</a>
+    </li>
+    <li class="page-item">
+        <a class="page-link" href="#" @onclick="@(async e => await LoadPage(Prev))" @onclick:preventDefault>&lt;</a>
+    </li>
+    @{
+        foreach (var p in Pages)
+        {
+            <li class=@(Model.CurrentPage == p ? "page-item active" : "page-item")>
+                <a class="page-link" @onclick="@(async e => await LoadPage(p))" href="#" @onclick:preventDefault>@(p + 1)</a>
+            </li>
+        }
+    }
+    <li class="page-item"><a class="page-link" href="#" @onclick="@(async e => await LoadPage(Next))" @onclick:preventDefault>&gt;</a></li>
+    <li class="page-item"><a class="page-link" href="#" @onclick="@(async e => await LoadPage(Last))" @onclick:preventDefault>&gt;&gt;</a></li>
+    <li class="page-item">
+        <select id="size" class="form-control" value="@Model.ItemsPerPage" @onchange="@OnItemsPerPageChanged">
+            <option value=10 selected>10</option>
+            <option value=20>20</option>
+            <option value=40>40</option>
+            <option value=80>80</option>
+        </select>
+    </li>
+</ul>
+
+@code {
+    [Parameter]
+    public EventCallback OnPageChanged { get; set; }
+
+    [Parameter]
+    public PaginatorModel Model { get; set; }
+
+    public async Task LoadPage(int page)
+    {
+        Model.CurrentPage = page;
+        await OnPageChanged.InvokeAsync(null);
+    }
+
+    public async Task OnItemsPerPageChanged(ChangeEventArgs x)
+    {
+        Model.ItemsPerPage = int.Parse(x.Value.ToString());
+        await OnPageChanged.InvokeAsync(null);
+    }
+
+    public int First => 0;
+    public int Prev => Math.Max(Model.CurrentPage - 1, 0);
+    public int Next => Math.Min(Model.CurrentPage + 1, Math.Max(PageCount - 1, 0));
+    public int Last => Math.Max(PageCount - 1, 0);
+
+    public int PageCount
+    {
+        get
+        {
+            if (Model.ItemsPerPage < 1 || Model.ItemsTotalCount < 1)
+                return 0;
+            var count = (Model.ItemsTotalCount / Model.ItemsPerPage);
+            if ((Model.ItemsTotalCount % Model.ItemsPerPage) > 0)
+                count++;
+            return count;
+
+        }
+    }
+
+    public IEnumerable<int> Pages
+    {
+        get
+        {
+            var half = Model.Size / 2;
+            var reminder = Model.Size % 2;
+            var max = Math.Min(Model.CurrentPage + half + Math.Max((half - Model.CurrentPage), 0) + reminder, PageCount);
+            var min = Math.Max(max - Model.Size, 0);
+            for (int i = min; i < max; i++)
+            {
+                yield return i;
+            }
+        }
+    }
+}

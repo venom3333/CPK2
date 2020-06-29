@@ -1,0 +1,17 @@
+@page "/video"
+@attribute [Authorize]
+
+<h3>Products</h3>
+<div class="jumbotron col-md-6">
+    <video controls="controls">
+        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" type="video/mp4" />
+    </video>
+</div>
+
+@functions
+{ protected override async Task OnInitializedAsync()
+  {
+      await Task.CompletedTask;
+    //await ViewModel.OnInitializedAsync();
+  }
+}

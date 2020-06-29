@@ -1,0 +1,89 @@
+@page "/products"
+@inject ProductsViewModel ViewModel
+<h3>Products</h3>
+<div class="jumbotron col-md-6">
+    <EditForm EditContext="@ViewModel.FilterFormEditContext" OnValidSubmit="@ViewModel.HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <div class="form-group col-md-12">
+                <label for="title">Title</label>
+                <InputText id="title" @bind-Value="@ViewModel.Title" class="form-control" />
+                <ValidationMessage For="@(() =>ViewModel.Title)" />
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="min">Min Price</label>
+                <InputNumber id="min" @bind-Value="@ViewModel.MinPrice" class="form-control" TValue="decimal" />
+                <ValidationMessage For="@(() => ViewModel.MinPrice)" />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="max">Max Price</label>
+                <InputNumber id="max" @bind-Value="@ViewModel.MaxPrice" class="form-control" TValue="decimal?" />
+                <ValidationMessage For="@(() =>ViewModel.MaxPrice)" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">Submit</button>
+    </EditForm>
+</div>
+
+<nav aria-label="Table pages">
+    <Paginator OnPageChanged="@ViewModel.LoadPage" Model="@ViewModel.Paginator" />
+</nav>
+<div>
+    <Error Model="@ViewModel.Error" />
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Image</th>
+                @foreach (var kv in ViewModel.TableHeaderModel)
+                {
+    <SortableTableHeader Sorted="@(x=>ViewModel.HandleSort(kv.Key))" Model="@kv.Value">@kv.Key.ToString("G")</SortableTableHeader>
+}
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewModel.Model != null)
+            {
+@foreach (var product in ViewModel.Model)
+{
+<tr>
+    <td><img src="@(ViewModel.ImageUrl(product))" /></td>
+    <td>@product.Title</td>
+    <td>@product.Price</td>
+    <td>
+        <input type="button"
+               value="Добавить в корзину"
+               class="btn btn-success"
+               @onclick="@(async x=> await ViewModel.AddToBasket(product))" />
+    </td>
+</tr>
+           } }
+else
+{
+<tr>
+    <td>
+        <p><em>Loading...</em></p>
+    </td>
+</tr>
+       }
+        </tbody>
+    </table>
+</div>
+
+@functions
+{ protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ViewModel.OnInitializedAsync();
+        }
+        catch (Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+    }
+}

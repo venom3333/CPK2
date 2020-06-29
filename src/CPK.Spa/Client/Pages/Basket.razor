@@ -1,0 +1,66 @@
+﻿@page "/basket"
+@attribute [Authorize]
+@inject BasketViewModel ViewModel
+
+<h3>Basket</h3>
+<Error Model="@ViewModel.Error" />
+<div class="row">
+    @if (ViewModel.Model.Count > 0)
+    {
+        <NavLink class="nav-link" href="orders/create">Create Order</NavLink>
+        <input type="button" class="btn btn-danger" value="Clear" @onclick="@ViewModel.Clear"/>
+    }
+</div>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (ViewModel.Model == null)
+            {
+                <tr>
+                    <td>
+                        <em>Loading...</em>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                foreach (var line in ViewModel.Model)
+                {
+
+                    <tr>
+                        <td>@line.Product.Title</td>
+                        <td>@line.Product.Price</td>
+                        <td>@line.Quantity</td>
+                        <td>
+                            <input type="button"
+                                   class="btn btn-success"
+                                   @onclick="@(async x=>await ViewModel.Add(line.Product))"
+                                   value="+" />
+                            <input class="btn btn-warning"
+                                   value="-"
+                                   type="button"
+                                   @onclick="@(async x=>await ViewModel.Remove(line.Product))" />
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await ViewModel.OnInitializedAsync();
+    }
+}
