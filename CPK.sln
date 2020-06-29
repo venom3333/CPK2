@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.FilesModule", "src\Api\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.OrdersModule", "src\Api\CPK.OrdersModule\CPK.OrdersModule.csproj", "{31170C95-11F2-4394-8463-F8C54808AC80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.ProductsModule", "src\Api\CPK.ProductsModule\CPK.ProductsModule.csproj", "{03FA36E0-2763-4C85-9D5C-48A9A0B744D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{31170C95-11F2-4394-8463-F8C54808AC80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31170C95-11F2-4394-8463-F8C54808AC80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31170C95-11F2-4394-8463-F8C54808AC80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,5 +91,6 @@ Global
 		{A0697D89-7696-4A7D-A27A-EC765552E073} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
 		{E9D45BBC-FE99-491D-821C-278761D4E7D0} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
 		{31170C95-11F2-4394-8463-F8C54808AC80} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
+		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
 	EndGlobalSection
 EndGlobal
