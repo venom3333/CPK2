@@ -103,8 +103,7 @@ namespace CPK.Sso.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("",
-                            $"На {model.Email} выслано письмо с подтверждением регистрации. Вы должны подтвердить регистрацию прежде чем сможете войти");
+                        ModelState.AddModelError("", ConstantMessages.RegisterConfirmationMessage(model.Email));
                     }
                 }
                 else
@@ -288,22 +287,16 @@ namespace CPK.Sso.Controllers
                 // ...
                 var token = await _userManager.GenerateEmailConfirmationTokenAsync(userDto).ConfigureAwait(false);
                 var link = GetConfirmationLink(userDto.Id, token, returnUrl);
+                
+                // TODO: Отправка email
                 // await _emailSender.SendAsync(user.Id,
                 //     "Подтверждение регистрации",
                 //     $"Пожалуйста подтвердите регистрацию кликнув по ссылке: <a href=\"{link}\">Подтвердить</a>");
             }
 
-            if (returnUrl != null)
-            {
-                if (HttpContext.User.Identity.IsAuthenticated)
-                    return Redirect(returnUrl);
-                else if (ModelState.IsValid)
-                    return RedirectToAction("login", "Account", new {returnUrl = returnUrl});
-                else
-                    return View(model);
-            }
-
-            return RedirectToAction("index", "Home");
+            
+            ViewBag.Message = ConstantMessages.RegisterConfirmationMessage(model.Email);
+            return View("Success");
         }
 
         private string GetConfirmationLink(string id, string token, string returnUrl = null)
@@ -425,6 +418,8 @@ namespace CPK.Sso.Controllers
                 // Формируем ссылку и посылаем емейл
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false);
                 var link = GetResetPasswordLink(user.Id, token, returnUrl);
+                
+                // TODO: Отправка email
                 // await _emailSender.SendAsync(user.Id,
                 //     "Сброс пароля",
                 //     $"Пожалуйста сбросьте свой пароль кликнув по ссылке: <a href=\"{link}\">Подтвердить</a>");
