@@ -13,6 +13,8 @@ ProjectSection(SolutionItems) = preProject
 	docker-compose.yml = docker-compose.yml
 EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Contracts", "CPK.Contracts\CPK.Contracts.csproj", "{4516B46D-207F-4E15-B407-B72CD331CD46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +25,10 @@ Global
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97CE0819-5DF9-4F48-BE3C-97C6027161C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4516B46D-207F-4E15-B407-B72CD331CD46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4516B46D-207F-4E15-B407-B72CD331CD46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4516B46D-207F-4E15-B407-B72CD331CD46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4516B46D-207F-4E15-B407-B72CD331CD46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
