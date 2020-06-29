@@ -71,7 +71,7 @@ namespace CPK.Spa.Client.Core.HttpContext
 
         private HttpClient GetClient(bool auth = true) =>
             auth?
-            _serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient("BlazorEShop") :
+            _serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient("AuthClient") :
             _serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient("PublicClient");
     }
 }

@@ -17,20 +17,17 @@ namespace CPK.Sso.Configuration
         {
             get
             {
-                switch (EnvironmentName)
+                return EnvironmentName switch
                 {
-                    case "Production":
-                        return EnvironmentNameEnum.Production;
-                    case "Staging":
-                        return EnvironmentNameEnum.Staging;
-                    case "Development":
-                    default:
-                        return EnvironmentNameEnum.Development;
-                }
+                    "Production" => EnvironmentNameEnum.Production,
+                    "Staging" => EnvironmentNameEnum.Staging,
+                    "Development" => EnvironmentNameEnum.Development,
+                    _ => EnvironmentNameEnum.Development
+                };
             }
         }
 
-        public const int USER_MAIL_CONFIRM_TIME_HOURS = 24;
+        public const int UserMailConfirmTimeHours = 24;
 
         // ApiResources define the apis in your system
         public static IEnumerable<ApiResource> GetApis()

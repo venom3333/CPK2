@@ -19,6 +19,7 @@ using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryAdapters;
 using CPK.ProductsModule.PrimaryPorts;
 using CPK.ProductsModule.SecondaryPorts;
+using CPK.SharedModule.Config;
 using FluentValidationGuard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,7 +72,7 @@ namespace CPK.Api
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EShop API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CPK API", Version = "v1" });
                 c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Type = SecuritySchemeType.OAuth2,
@@ -83,7 +84,7 @@ namespace CPK.Api
                             TokenUrl = new Uri($"{config.IdentityUrlExternal}/connect/token"),
                             Scopes = new Dictionary<string, string>()
                             {
-                                { "api", "BlazorEShop API" }
+                                { "api", "CPK API" }
                             }
                         }
                     }
@@ -121,6 +122,10 @@ namespace CPK.Api
                 var db = scope.ServiceProvider.GetRequiredService<CpkContext>();
                 //db.Database.EnsureDeleted();
                 //db.Database.EnsureCreated();
+                if (SharedConfig.IsProduction)
+                {
+                    db.Database.Migrate();
+                }
                 var files = scope.ServiceProvider.GetRequiredService<IFilesService>();
                 var items = scope.ServiceProvider.GetRequiredService<IProductsService>();
                 for (int i = 1; i < 10; i++)
@@ -136,10 +141,10 @@ namespace CPK.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EShop API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CPK API V1");
                 c.RoutePrefix = string.Empty;
                 c.OAuthClientId("apiSwaggerUi");
-                c.OAuthAppName("EShop Swagger UI");
+                c.OAuthAppName("CPK Swagger UI");
             });
             app.UseExceptionHandler("/api/v1/error");
             app.UseRouting();

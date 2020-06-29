@@ -11,14 +11,14 @@ services:
   cpk.sso:
     image: alrosait/CPK-sso:latest
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Staging
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_HTTPS_PORT=8000
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1234Qwert
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/root/.aspnet/https/CPK-sso.pfx
       - ApiSwaggerClient=http://localhost:7001
       - SpaBlazorClient=http://localhost:7003 
-      - ConnectionString=Server=sqldata;Database=BlazorEShop.Sso.Prod;User Id=sa;Password=Pass@word;
+      - ConnectionString=Host=rc1c-un5wuadesgzjjl01.mdb.yandexcloud.net;Port=6432;SSLMode=Require;TrustServerCertificate=true;Database=cpk2-sso-dev;Username=cpk2-dev;Password=developer$pass
     ports:
       - "7000:80"
       - "8000:443"
@@ -29,17 +29,17 @@ services:
   cpk.api:
     image: alrosait/CPK-api:latest
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Staging
       - IdentityUrlExternal=https://localhost:8000
       - Authority=http://cpk.sso
-      - ConnectionString=Host=pgdata;Port=5432;Database=BlazorEShop.Api.Prod;Username=postgres;Password=postgres;
+      - ConnectionString=Host=rc1c-un5wuadesgzjjl01.mdb.yandexcloud.net;Port=6432;SSLMode=Require;TrustServerCertificate=true;Database=cpk2-dev;Username=cpk2-dev;Password=developer$pass
     ports:
       - "7001:80"
 
   cpk.spa.server:
-    image: alrosait/CPK-spa-blazor:latest
+    image: alrosait/CPK-spa:latest
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_ENVIRONMENT=Staging
       - SsoUri=https://localhost:8000
       - ApiUri=http://localhost:7001
     ports:

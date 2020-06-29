@@ -260,7 +260,7 @@ namespace CPK.Sso.Controllers
                 var userDto = await _userManager.FindByNameAsync(user.UserName).ConfigureAwait(false);
                 if (userDto != null
                     && !userDto.EmailConfirmed // не подтвержден
-                    && userDto.Created < DateTime.Now - TimeSpan.FromHours(Config.USER_MAIL_CONFIRM_TIME_HOURS)
+                    && userDto.Created < DateTime.Now - TimeSpan.FromHours(Config.UserMailConfirmTimeHours)
                 ) // и висит больше суток
                 {
                     var deleteResult = await _userManager.DeleteAsync(userDto).ConfigureAwait(false);

@@ -1,6 +1,6 @@
 {
-  "name": "BlazorEShop.Spa.BlazorWasm.Client",
-  "short_name": "BlazorEShop.Spa.BlazorWasm.Client",
+  "name": "CPK.Spa.Client",
+  "short_name": "CPK.Spa.Client",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

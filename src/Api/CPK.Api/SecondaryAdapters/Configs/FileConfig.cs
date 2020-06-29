@@ -4,11 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CPK.Api.SecondaryAdapters.Configs
 {
-    internal sealed class BasketConfig : IEntityTypeConfiguration<BasketDto>
+    internal sealed class FileConfig : IEntityTypeConfiguration<FileDto>
     {
-        public void Configure(EntityTypeBuilder<BasketDto> builder)
+        public void Configure(EntityTypeBuilder<FileDto> builder)
         {
             builder.HasKey(b => b.Id);
+            builder.HasIndex(f => new { f.Hash, f.Size }).IsUnique();
         }
     }
 }

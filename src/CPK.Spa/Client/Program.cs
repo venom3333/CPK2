@@ -46,7 +46,7 @@ namespace CPK.Spa.Client
             var cfg = await GetConfigAsync(services);
             services.AddScoped<ConfigModel>(s => cfg);
             Console.WriteLine($"API URI IN STARTUP: {cfg?.ApiUri}");
-            services.AddHttpClient("BlazorEShop", client => 
+            services.AddHttpClient("AuthClient", client => 
                     client.BaseAddress = new Uri(cfg.ApiUri))
                 .AddHttpMessageHandler(sp =>
                     sp.GetRequiredService<AuthorizationMessageHandler>()
@@ -56,7 +56,7 @@ namespace CPK.Spa.Client
                     client.BaseAddress = new Uri(cfg.ApiUri));
 
             services.AddTransient(sp => 
-                sp.GetRequiredService<IHttpClientFactory>().CreateClient("BlazorEShop"));
+                sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthClient"));
             Console.WriteLine($"SSO URI IN STARTUP: {cfg?.SsoUri}");
             services.AddOidcAuthentication(x =>
             {
