@@ -25,14 +25,8 @@ using Serilog;
 
 namespace CPK.Sso.Controllers
 {
-    /// <summary>
-    /// This sample controller implements a typical login/logout/provision workflow for local accounts.
-    /// The login service encapsulates the interactions with the user data store. This data store is in-memory only and cannot be used for production!
-    /// The interaction service provides a way for the UI to communicate with identityserver for validation and context retrieval
-    /// </summary>
     public class AccountController : BaseController
     {
-        //private readonly InMemoryUserLoginService _loginService;
         private readonly ILoginService<ApplicationUser> _loginService;
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -41,7 +35,6 @@ namespace CPK.Sso.Controllers
         private readonly IConfiguration _configuration;
 
         public AccountController(
-            //InMemoryUserLoginService loginService,
             ILoginService<ApplicationUser> loginService,
             IIdentityServerInteractionService interaction,
             IClientStore clientStore,
@@ -470,10 +463,10 @@ namespace CPK.Sso.Controllers
                 await SigninAsync(user, returnUrl, false).ConfigureAwait(false);
 
                 // make sure the returnUrl is still valid, and if yes - redirect back to authorize endpoint
-                if (_interaction.IsValidReturnUrl(returnUrl))
-                {
+                // if (_interaction.IsValidReturnUrl(returnUrl))
+                // {
                     return Redirect(returnUrl);
-                }
+                // }
 
                 return Redirect("~/");
             }

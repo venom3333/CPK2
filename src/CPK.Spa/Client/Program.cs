@@ -2,14 +2,18 @@
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+
 using CPK.Contracts;
+using CPK.Spa.Client.Core.Authentication;
 using CPK.Spa.Client.Core.HttpContext;
 using CPK.Spa.Client.Core.Repositories;
 using CPK.Spa.Client.Core.Services;
 using CPK.Spa.Client.ViewModels;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -43,22 +47,33 @@ namespace CPK.Spa.Client
 
         private static async Task ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(provider =>
+            {
+                var config = provider.GetService<IConfiguration>();
+                return config.Get<ConfigModel>();
+            });
+
             var cfg = await GetConfigAsync(services);
+            if (cfg == null)
+            {
+                throw new Exception("Configuration is null");
+            }
+
             services.AddScoped<ConfigModel>(s => cfg);
-            Console.WriteLine($"API URI IN STARTUP: {cfg?.ApiUri}");
-            services.AddHttpClient("AuthClient", client => 
+            Console.WriteLine($"API URI IN STARTUP: {cfg.ApiUri}");
+            services.AddHttpClient("AuthClient", client =>
                     client.BaseAddress = new Uri(cfg.ApiUri))
                 .AddHttpMessageHandler(sp =>
                     sp.GetRequiredService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(new[] { cfg.ApiUri },scopes: new[] { "api" }));
+                        .ConfigureHandler(new[] { cfg.ApiUri }, scopes: new[] { "api" }));
 
             services.AddHttpClient<PublicClient>("PublicClient", client =>
-                    client.BaseAddress = new Uri(cfg.ApiUri));
+                client.BaseAddress = new Uri(cfg.ApiUri));
 
-            services.AddTransient(sp => 
+            services.AddTransient(sp =>
                 sp.GetRequiredService<IHttpClientFactory>().CreateClient("AuthClient"));
-            Console.WriteLine($"SSO URI IN STARTUP: {cfg?.SsoUri}");
-            services.AddOidcAuthentication(x =>
+            Console.WriteLine($"SSO URI IN STARTUP: {cfg.SsoUri}");
+            services.AddOidcAuthentication<RemoteAuthenticationState, CpkAccount>(x =>
             {
                 x.ProviderOptions.Authority = cfg.SsoUri;
                 x.ProviderOptions.ClientId = "spaBlazorClient";
@@ -67,6 +82,10 @@ namespace CPK.Spa.Client
                 x.UserOptions.RoleClaim = "role";
                 x.UserOptions.NameClaim = "name";
             });
+
+            services.AddApiAuthorization<RemoteAuthenticationState, CpkAccount>()
+                .AddAccountClaimsPrincipalFactory<RemoteAuthenticationState, CpkAccount, CpkAccountFactory>();
+
             services.AddScoped<IHttpContext, HttpContext>();
             services.AddScoped<IApiRepository, ApiRepository>();
             services.AddScoped<IBasketService, BasketService>();

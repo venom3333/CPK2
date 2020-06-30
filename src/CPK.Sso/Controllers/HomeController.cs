@@ -28,7 +28,11 @@ namespace CPK.Sso.Controllers
         public IActionResult ReturnToOriginalApplication(string returnUrl)
         {
             if (returnUrl != null)
-                return Redirect(_redirectSvc.ExtractRedirectUriFromReturnUrl(returnUrl));
+            {
+                var extractedRedirect = _redirectSvc.ExtractRedirectUriFromReturnUrl(returnUrl);
+                if (extractedRedirect == "/") extractedRedirect = returnUrl;
+                return Redirect(extractedRedirect);
+            }
             else
                 return RedirectToAction("Index", "Home");
         }

@@ -9,6 +9,7 @@ using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace CPK.Sso.Services
 {
@@ -31,13 +32,14 @@ namespace CPK.Sso.Services
             if (user == null)
                 throw new ArgumentException("Invalid subject identifier");
             var roles = await _userManager.GetRolesAsync(user);
-            var claims = GetClaimsFromUser(user);
+            var claims = GetClaimsFromUser(user).ToList();
+            claims.Add(new Claim("roles", string.Join(',', roles)));
+            // foreach (var role in roles)
+            // {
+            //     claims.Add(new Claim(JwtClaimTypes.Role, role));
+            // }
+
             context.IssuedClaims = claims.ToList();
-            foreach (var role in roles)
-            {
-                context.IssuedClaims.Add(new Claim(JwtClaimTypes.Role, role));
-            }
-           
         }
 
         async public Task IsActiveAsync(IsActiveContext context)
@@ -53,7 +55,8 @@ namespace CPK.Sso.Services
             {
                 if (_userManager.SupportsUserSecurityStamp)
                 {
-                    var security_stamp = subject.Claims.Where(c => c.Type == "security_stamp").Select(c => c.Value).SingleOrDefault();
+                    var security_stamp = subject.Claims.Where(c => c.Type == "security_stamp").Select(c => c.Value)
+                        .SingleOrDefault();
                     if (security_stamp != null)
                     {
                         var db_security_stamp = await _userManager.GetSecurityStampAsync(user);
@@ -117,7 +120,8 @@ namespace CPK.Sso.Services
                 claims.AddRange(new[]
                 {
                     new Claim(JwtClaimTypes.Email, user.Email),
-                    new Claim(JwtClaimTypes.EmailVerified, user.EmailConfirmed ? "true" : "false", ClaimValueTypes.Boolean)
+                    new Claim(JwtClaimTypes.EmailVerified, user.EmailConfirmed ? "true" : "false",
+                        ClaimValueTypes.Boolean)
                 });
             }
 
@@ -126,7 +130,8 @@ namespace CPK.Sso.Services
                 claims.AddRange(new[]
                 {
                     new Claim(JwtClaimTypes.PhoneNumber, user.PhoneNumber),
-                    new Claim(JwtClaimTypes.PhoneNumberVerified, user.PhoneNumberConfirmed ? "true" : "false", ClaimValueTypes.Boolean)
+                    new Claim(JwtClaimTypes.PhoneNumberVerified, user.PhoneNumberConfirmed ? "true" : "false",
+                        ClaimValueTypes.Boolean)
                 });
             }
 

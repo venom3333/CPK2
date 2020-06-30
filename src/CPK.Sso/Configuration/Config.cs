@@ -54,6 +54,7 @@ namespace CPK.Sso.Configuration
                         $"{clientsUrl["SpaBlazor"]}/authentication/login-callback",
                         $"{clientsUrl["SpaBlazor"]}/authentication/login-failed",
                         $"{clientsUrl["SpaBlazor"]}",
+                        $"{clientsUrl["SpaBlazor"]}/",
                     },
                     PostLogoutRedirectUris = new List<string>
                     {
@@ -67,7 +68,8 @@ namespace CPK.Sso.Configuration
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes = { "openid", "profile", "email", "api", "role" },
                     AllowOfflineAccess = true,
-                    RefreshTokenUsage = TokenUsage.ReUse
+                    RefreshTokenUsage = TokenUsage.ReUse,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 },
                     new Client
                 {

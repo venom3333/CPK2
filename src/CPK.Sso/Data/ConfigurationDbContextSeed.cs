@@ -14,14 +14,14 @@ namespace CPK.Sso.Data
     {
         public async Task SeedAsync(ConfigurationDbContext context, IConfiguration configuration)
         {
-
-            //callbacks urls from config:
-            var clientUrls = new Dictionary<string, string>();
-            clientUrls.Add("SpaBlazor", configuration.GetValue<string>("SpaBlazorClient"));
-            clientUrls.Add("ApiSwagger", configuration.GetValue<string>("ApiSwaggerClient"));
-
+            
             if (!context.Clients.Any())
             {
+                //callbacks urls from config:
+                var clientUrls = new Dictionary<string, string>();
+                clientUrls.Add("SpaBlazor", configuration.GetValue<string>("SpaBlazorClient"));
+                clientUrls.Add("ApiSwagger", configuration.GetValue<string>("ApiSwaggerClient"));
+
                 foreach (var client in Config.GetClients(clientUrls))
                 {
                     context.Clients.Add(client.ToEntity());

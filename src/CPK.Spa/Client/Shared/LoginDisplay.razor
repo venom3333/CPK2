@@ -1,22 +1,23 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @using CPK.Spa.Client.Core.Services
+@using CPK.Contracts
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
+@inject ConfigModel ConfigModel
 @inject IBasketService Basket
 @implements IDisposable
-
 
 <AuthorizeView>
     <Authorized>
         <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
         Вы вошли как, @context?.User?.Identity?.Name!
-        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Log out</button>
+        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Выйти</button>
     </Authorized>
     <NotAuthorized>
         <a href="@RemoteAuthenticationDefaults.LoginPath">Вход</a>
-        <a href="@RemoteAuthenticationDefaults.RegisterPath">Регистрация</a>
+        <button class="nav-link btn btn-link" @onclick="Register">Регистрация</button>
     </NotAuthorized>
 </AuthorizeView>
 
@@ -47,5 +48,10 @@
     {
         await SignOutManager.SetSignOutState();
         Navigation.NavigateTo("authentication/logout");
+    }
+
+    private void Register(MouseEventArgs args)
+    {
+        Navigation.NavigateTo($"{ConfigModel.SsoUri}/account/register?returnUrl={Navigation.BaseUri}");
     }
 }
