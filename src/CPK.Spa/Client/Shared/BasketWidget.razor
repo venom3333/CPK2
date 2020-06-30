@@ -1,0 +1,37 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using CPK.Spa.Client.Core.Services
+
+@inject IBasketService Basket
+@implements IDisposable
+
+<AuthorizeView>
+    <Authorized>
+        <NavLink class="nav-link" href="basket">
+            <span class="text-success">Basket: @TotalItemsCount </span>
+        </NavLink>
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    public long TotalItemsCount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Basket.OnBasketItemsCountChanged += Bind;
+        TotalItemsCount = Basket.ItemsCount;
+        base.OnInitialized();
+    }
+
+    public void Bind(object s, EventArgs e)
+    {
+        if (TotalItemsCount == Basket.ItemsCount)
+            return;
+        TotalItemsCount = Basket.ItemsCount;
+        this.StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Basket.OnBasketItemsCountChanged -= Bind;
+    }
+}

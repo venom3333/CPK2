@@ -1,39 +1,36 @@
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">ЦПК</a>
-    @*<LoginDisplay />*@
-    <button class="navbar-toggler" @onclick="ToggleNavMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div>
+    <a href="">ЦПК</a>
+    <button @onclick="ToggleNavMenu">Menu</button>
 </div>
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <ul class="nav flex-column">
-        <li class="nav-item px-3">
+    <ul>
+        <li>
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Home
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li>
             <NavLink class="nav-link" href="products">
                 <span class="oi oi-list-rich" aria-hidden="true"></span> Products
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li>
             <NavLink class="nav-link" href="basket">
                 <span class="oi oi-cart" aria-hidden="true"></span> Basket
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li>
             <NavLink class="nav-link" href="orders">
                 <span class="oi oi-document" aria-hidden="true"></span> Orders
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li>
             <NavLink class="nav-link" href="video">
                 <span class="oi oi-document" aria-hidden="true"></span> Video test
             </NavLink>
         </li>
-        <li class="nav-item px-3">
+        <li>
             <AuthorizeView>
                 <Authorized>
                     Авторизован

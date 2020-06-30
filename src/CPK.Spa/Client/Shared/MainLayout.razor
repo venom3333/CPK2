@@ -1,24 +1,35 @@
 ﻿@inherits LayoutComponentBase
 
-<header>
-    <NavBar />
-</header>
+    <header id="pageHeader">
+        <div id="mainLogo">
+            <img class="icon align-content-sm-center col-sm-12 col-lg-3" src="~/logo-cpk.png" alt="Logo">
+        </div>
+        <div id="basketWidget">
+            <BasketWidget />
+        </div>
+        <div id="authDisplay">
+            <LoginDisplay />
+        </div>
+    </header>
 
-<div class="sidebar">
-    <NavMenu />
-</div>
-
-<div class="main">
+<article  id="mainArticle">
     <div class="content px-4">
         @Body
     </div>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
-                    2020 - @DateTime.UtcNow.Year
-                </div>
+</article>
+
+<nav id="mainNav">
+    <NavMenu />
+</nav>
+
+<div id="siteAds"></div>
+
+<footer id="pageFooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                2020 - @DateTime.UtcNow.Year
             </div>
         </div>
-    </footer>
-</div>
+    </div>
+</footer>

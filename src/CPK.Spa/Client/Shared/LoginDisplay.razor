@@ -1,97 +1,28 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using CPK.Spa.Client.Core.Services
 @using CPK.Contracts
 
 @inject NavigationManager Navigation
 @inject SignOutSessionStateManager SignOutManager
 @inject ConfigModel ConfigModel
-@inject IBasketService Basket
-@implements IDisposable
 
 <AuthorizeView>
     <Authorized>
-        <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
         Вы вошли как, @context?.User?.Identity?.Name!
-        <button class="nav-link btn btn-link" @onclick="BeginSignOut">Выйти</button>
+        <button @onclick="BeginSignOut">Выйти</button>
+        <AuthorizeView Context="UserManagementContext" Roles="admin">
+            <Authorized>
+                <button @onclick="UserManagement">Пользователи</button>
+            </Authorized>
+        </AuthorizeView>
     </Authorized>
     <NotAuthorized>
-        <a href="@RemoteAuthenticationDefaults.LoginPath">Вход</a>
-        <button class="nav-link btn btn-link" @onclick="Register">Регистрация</button>
+        <button @onclick="Login">Вход</button>
+        <button @onclick="Register">Регистрация</button>
     </NotAuthorized>
 </AuthorizeView>
-<AuthorizeView Roles="admin">
-    <Authorized>
-        admin |
-    </Authorized>
-    <NotAuthorized>
-        не admin |
-    </NotAuthorized>
-</AuthorizeView>
-<AuthorizeView Roles="user">
-    <Authorized>
-        user |
-    </Authorized>
-    <NotAuthorized>
-        не user |
-    </NotAuthorized>
-</AuthorizeView>
-<AuthorizeView Roles="cpkadmin">
-    <Authorized>
-        cpkadmin |
-    </Authorized>
-    <NotAuthorized>
-        не cpkadmin |
-    </NotAuthorized>
-</AuthorizeView>
-
-@*<AuthorizeView>
-    <Authorized>
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
-                    Вы вошли как, @context?.User?.Identity?.Name!
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <AuthorizeView Context="UserManagementContext" Roles="admin">
-                        <button class="nav-link btn btn-link" @onclick="UserManagement">Пользователи</button>
-                    </AuthorizeView>
-                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Сменить пароль</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
-                </div>
-            </li>
-        </ul>
-    </Authorized>
-    <NotAuthorized>
-        <button class="nav-link btn btn-link" @onclick="Login">Вход</button>
-        <button class="nav-link btn btn-link" @onclick="Register">Регистрация</button>
-    </NotAuthorized>
-</AuthorizeView>*@
 
 @code {
-    public long TotalItemsCount { get; set; }
-
-    protected override void OnInitialized()
-    {
-        Basket.OnBasketItemsCountChanged += Bind;
-        TotalItemsCount = Basket.ItemsCount;
-        base.OnInitialized();
-    }
-
-    public void Bind(object s, EventArgs e)
-    {
-        if (TotalItemsCount == Basket.ItemsCount)
-            return;
-        TotalItemsCount = Basket.ItemsCount;
-        this.StateHasChanged();
-    }
-
-    public void Dispose()
-    {
-        Basket.OnBasketItemsCountChanged -= Bind;
-    }
-
     private async Task BeginSignOut(MouseEventArgs args)
     {
         await SignOutManager.SetSignOutState();
