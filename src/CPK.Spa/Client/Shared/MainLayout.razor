@@ -1,15 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
+<header>
+    <NavBar />
+</header>
+
 <div class="sidebar">
     <NavMenu />
 </div>
 
 <div class="main">
-    <div class="top-row px-4 auth">
-        <LoginDisplay />
-    </div>
-
     <div class="content px-4">
         @Body
     </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    2020 - @DateTime.UtcNow.Year
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>

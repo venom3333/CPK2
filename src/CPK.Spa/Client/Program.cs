@@ -79,7 +79,7 @@ namespace CPK.Spa.Client
                 x.ProviderOptions.ClientId = "spaBlazorClient";
                 x.ProviderOptions.ResponseType = "code";
                 x.ProviderOptions.DefaultScopes.Add("api");
-                x.UserOptions.RoleClaim = "role";
+                x.UserOptions.RoleClaim = "client_role";
                 x.UserOptions.NameClaim = "name";
             });
 

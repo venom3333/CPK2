@@ -20,6 +20,54 @@
         <button class="nav-link btn btn-link" @onclick="Register">Регистрация</button>
     </NotAuthorized>
 </AuthorizeView>
+<AuthorizeView Roles="admin">
+    <Authorized>
+        admin |
+    </Authorized>
+    <NotAuthorized>
+        не admin |
+    </NotAuthorized>
+</AuthorizeView>
+<AuthorizeView Roles="user">
+    <Authorized>
+        user |
+    </Authorized>
+    <NotAuthorized>
+        не user |
+    </NotAuthorized>
+</AuthorizeView>
+<AuthorizeView Roles="cpkadmin">
+    <Authorized>
+        cpkadmin |
+    </Authorized>
+    <NotAuthorized>
+        не cpkadmin |
+    </NotAuthorized>
+</AuthorizeView>
+
+@*<AuthorizeView>
+    <Authorized>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="text-success">Total Items In Basket: @TotalItemsCount </span>&nbsp;&nbsp;
+                    Вы вошли как, @context?.User?.Identity?.Name!
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <AuthorizeView Context="UserManagementContext" Roles="admin">
+                        <button class="nav-link btn btn-link" @onclick="UserManagement">Пользователи</button>
+                    </AuthorizeView>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Сменить пароль</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
+                </div>
+            </li>
+        </ul>
+    </Authorized>
+    <NotAuthorized>
+        <button class="nav-link btn btn-link" @onclick="Login">Вход</button>
+        <button class="nav-link btn btn-link" @onclick="Register">Регистрация</button>
+    </NotAuthorized>
+</AuthorizeView>*@
 
 @code {
     public long TotalItemsCount { get; set; }
@@ -50,8 +98,18 @@
         Navigation.NavigateTo("authentication/logout");
     }
 
+    private void Login(MouseEventArgs args)
+    {
+        Navigation.NavigateTo(RemoteAuthenticationDefaults.LoginPath);
+    }
+
     private void Register(MouseEventArgs args)
     {
         Navigation.NavigateTo($"{ConfigModel.SsoUri}/account/register?returnUrl={Navigation.BaseUri}");
+    }
+
+    private void UserManagement(MouseEventArgs args)
+    {
+        Navigation.NavigateTo($"{ConfigModel.SsoUri}/UserManagement/index?returnUrl={Navigation.BaseUri}");
     }
 }

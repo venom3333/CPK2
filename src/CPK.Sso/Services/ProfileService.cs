@@ -34,10 +34,10 @@ namespace CPK.Sso.Services
             var roles = await _userManager.GetRolesAsync(user);
             var claims = GetClaimsFromUser(user).ToList();
             claims.Add(new Claim("roles", string.Join(',', roles)));
-            // foreach (var role in roles)
-            // {
-            //     claims.Add(new Claim(JwtClaimTypes.Role, role));
-            // }
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(JwtClaimTypes.Role, role));
+            }
 
             context.IssuedClaims = claims.ToList();
         }

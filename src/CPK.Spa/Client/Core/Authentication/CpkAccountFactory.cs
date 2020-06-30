@@ -30,7 +30,7 @@ namespace CPK.Spa.Client.Core.Authentication
 
                 foreach (var value in account.Roles.Split(',',StringSplitOptions.RemoveEmptyEntries))
                 {
-                    ((ClaimsIdentity) initialUser.Identity).AddClaim(new Claim("role", value));
+                    ((ClaimsIdentity) initialUser.Identity).AddClaim(new Claim("client_role", value));
                 }
             }
 
