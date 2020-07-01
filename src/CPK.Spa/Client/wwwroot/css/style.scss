@@ -1,7 +1,9 @@
-﻿app {
+﻿@import 'variables';
+
+app {
     display: grid;
     grid-template-areas: "header header header" "nav article ads" "footer footer footer";
-    grid-template-rows: 60px 1fr 60px;
+    grid-template-rows: $header_height 1fr 60px;
     grid-template-columns: 20% 1fr 15%;
     grid-gap: 10px;
     height: 100vh;
@@ -13,9 +15,13 @@
     display: grid;
     grid-template-areas: "logo basket auth";
     grid-template-columns: 3fr 1fr 2fr;
-    grid-template-rows: 60px;
+    grid-template-rows: $header_height;
     grid-gap: 10px;
     align-items: center;
+    position: sticky;
+    top: 0;
+    background-color: $header_color;
+    z-index: 10;
 }
 
 #pageFooter {
@@ -36,7 +42,11 @@
 
 #mainLogo {
     grid-area: logo;
-    place-self: center;
+    place-self: center center;
+
+    .logo-icon {
+        max-height: $header_height;
+    }
 }
 
 #basketWidget {
@@ -44,7 +54,7 @@
     place-self: center end;
 }
 
-#loginDisplay {
+#authDisplay {
     grid-area: auth;
     place-self: center;
 }

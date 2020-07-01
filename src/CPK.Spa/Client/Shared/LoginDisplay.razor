@@ -8,8 +8,9 @@
 
 <AuthorizeView>
     <Authorized>
-        Вы вошли как, @context?.User?.Identity?.Name!
+        @context?.User?.Identity?.Name
         <button @onclick="BeginSignOut">Выйти</button>
+        <button @onclick="ChangePassword">Сменить пароль</button>
         <AuthorizeView Context="UserManagementContext" Roles="admin">
             <Authorized>
                 <button @onclick="UserManagement">Пользователи</button>
@@ -18,7 +19,7 @@
     </Authorized>
     <NotAuthorized>
         <button @onclick="Login">Вход</button>
-        <button @onclick="Register">Регистрация</button>
+        @*<button @onclick="Register">Регистрация</button>*@
     </NotAuthorized>
 </AuthorizeView>
 
@@ -37,6 +38,11 @@
     private void Register(MouseEventArgs args)
     {
         Navigation.NavigateTo($"{ConfigModel.SsoUri}/account/register?returnUrl={Navigation.BaseUri}");
+    }
+
+    private void ChangePassword(MouseEventArgs args)
+    {
+        Navigation.NavigateTo($"{ConfigModel.SsoUri}/account/changepassword?returnUrl={Navigation.BaseUri}");
     }
 
     private void UserManagement(MouseEventArgs args)

@@ -448,6 +448,7 @@ namespace CPK.Sso.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string id, string token, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (!string.IsNullOrWhiteSpace(id) && !string.IsNullOrWhiteSpace(token))
             {
                 // Проверяем хэш у юзера по id
@@ -476,8 +477,9 @@ namespace CPK.Sso.Controllers
             return View("Error");
         }
 
-        public IActionResult ResetPassword(string id, string token, string returnurl = null)
+        public IActionResult ResetPassword(string id, string token, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(token))
             {
                 return View("Error");
@@ -494,8 +496,9 @@ namespace CPK.Sso.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = _userManager.FindByIdAsync(model.UserId).Result;

@@ -21,10 +21,10 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     @if (isAdmin)
                     {
-                        <a class="dropdown-item" asp-area="" asp-controller="UserManagement" asp-action="Index" asp-route-returnurl="/">Пользователи</a>
+                        <a class="dropdown-item" asp-area="" asp-controller="UserManagement" asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-action="Index" asp-route-returnurl="/">Пользователи</a>
                     }
-                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangePassword">Сменить пароль</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-route-returnUrl="@ViewData["ReturnUrl"]" asp-action="ChangePassword">Сменить пароль</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Account"  asp-action="Logout">Выйти</a>
                 </div>
             </li>
         </ul>
@@ -34,10 +34,10 @@ else
 {
     <ul class="nav navbar-nav navbar-right">
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnurl="/">Войти</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]">Войти</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnurl="/">Регистрация</a>
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]">Регистрация</a>
         </li>
     </ul>
 }

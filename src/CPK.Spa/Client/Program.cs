@@ -81,6 +81,7 @@ namespace CPK.Spa.Client
                 x.ProviderOptions.DefaultScopes.Add("api");
                 x.UserOptions.RoleClaim = "client_role";
                 x.UserOptions.NameClaim = "name";
+                x.AuthenticationPaths.LogOutSucceededPath = "/";
             });
 
             services.AddApiAuthorization<RemoteAuthenticationState, CpkAccount>()
