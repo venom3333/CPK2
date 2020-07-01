@@ -15,6 +15,9 @@ using CPK.FilesModule.SecondaryPorts;
 using CPK.OrdersModule.PrimaryAdapters;
 using CPK.OrdersModule.PrimaryPorts;
 using CPK.OrdersModule.SecondaryPorts;
+using CPK.ProductCategoriesModule.PrimaryAdapters;
+using CPK.ProductCategoriesModule.PrimaryPorts;
+using CPK.ProductCategoriesModule.SecondaryPorts;
 using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryAdapters;
 using CPK.ProductsModule.PrimaryPorts;
@@ -100,12 +103,18 @@ namespace CPK.Api
             services.AddTransient<IOrdersUow, OrdersUow>();
             services.AddTransient<IBasketUow, BasketUow>();
             services.AddTransient<IProductsUow, ProductsUow>();
+            services.AddTransient<IProductCategoriesUow, ProductCategoriesUow>();
+            
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IBasketRepository, BasketRepository>();
             services.AddTransient<IProductsRepository, ProductRepository>();
+            services.AddTransient<IProductCategoriesRepository, ProductCategoryRepository>();
+            
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IProductCategoriesService, ProductCategoriesService>();
             services.AddTransient<IBasketService, BasketService>();
             services.AddTransient<IOrderService, OrderService>();
+            
             services.AddTransient<IErrorConverter, ErrorConverter>();
             services.AddTransient<IFilesUow, FilesUow>();
             services.AddTransient<IFilesRepository, FilesRepository>();

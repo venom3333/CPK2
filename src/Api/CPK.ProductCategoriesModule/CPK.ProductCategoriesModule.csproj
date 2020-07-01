@@ -5,12 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="PrimaryAdapters" />
-      <Folder Include="PrimaryPorts" />
-      <Folder Include="SecondaryPorts" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
       <ProjectReference Include="..\CPK.SharedModule\CPK.SharedModule.csproj" />
     </ItemGroup>

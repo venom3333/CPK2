@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using CPK.ProductsModule.Dto;
-using CPK.ProductsModule.Entities;
-using CPK.ProductsModule.PrimaryPorts;
-using CPK.ProductsModule.SecondaryPorts;
+using CPK.ProductCategoriesModule.Dto;
+using CPK.ProductCategoriesModule.Entities;
+using CPK.ProductCategoriesModule.PrimaryPorts;
+using CPK.ProductCategoriesModule.SecondaryPorts;
 using CPK.SharedModule;
 using CPK.SharedModule.Entities;
 
-namespace CPK.ProductsModule.PrimaryAdapters
+namespace CPK.ProductCategoriesModule.PrimaryAdapters
 {
-    public sealed class ProductsService : IProductsService
+    public sealed class ProductCategoriesService : IProductCategoriesService
     {
-        private readonly IProductsUow _uow;
-        private readonly IProductsRepository _repository;
+        private readonly IProductCategoriesUow _uow;
+        private readonly IProductCategoriesRepository _repository;
 
-        public ProductsService(IProductsUow uow, IProductsRepository repository)
+        public ProductCategoriesService(IProductCategoriesUow uow, IProductCategoriesRepository repository)
         {
             _uow = uow;
             _repository = repository;
         }
 
-        public async Task<int> Add(Product request)
+        public async Task<int> Add(ProductCategory request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
@@ -29,13 +28,13 @@ namespace CPK.ProductsModule.PrimaryAdapters
             return await _uow.SaveAsync();
         }
 
-        public async Task<PageResult<ConcurrencyToken<Product>>> Get(ProductsFilter request)
+        public async Task<PageResult<ConcurrencyToken<ProductCategory>>> Get(ProductCategoriesFilter request)
         {
             if (request == default)
                 throw new ArgumentOutOfRangeException(nameof(request));
-            var products = await _repository.Get(request);
+            var productCategory = await _repository.Get(request);
             var total = await _repository.Count(request);
-            return new PageResult<ConcurrencyToken<Product>>(request.PageFilter, products, (uint)total);
+            return new PageResult<ConcurrencyToken<ProductCategory>>(request.PageFilter, productCategory, (uint)total);
         }
 
         public async Task<int> Remove(ConcurrencyToken<Id> request)
@@ -47,7 +46,7 @@ namespace CPK.ProductsModule.PrimaryAdapters
             return count;
         }
 
-        public async Task<int> Update(ConcurrencyToken<Product> request)
+        public async Task<int> Update(ConcurrencyToken<ProductCategory> request)
         {
             if (request.Entity == null || string.IsNullOrWhiteSpace(request.Token))
                 throw new ArgumentNullException(nameof(request));
