@@ -21,7 +21,9 @@ namespace CPK.Api.SecondaryAdapters
 
         public DbSet<ProductDto> Products { get; set; }
         public DbSet<BasketDto> Baskets { get; set; }
+        public DbSet<BasketLineDto> BasketLines { get; set; }
         public DbSet<OrderDto> Orders { get; set; }
+        public DbSet<OrderLineDto> OrderLines { get; set; }
         public DbSet<FileDto> Files { get; set; }
 
         public void DeleteWithToken<TEntity, TDto, T>(ConcurrencyToken<TEntity> entity, TDto dto)
