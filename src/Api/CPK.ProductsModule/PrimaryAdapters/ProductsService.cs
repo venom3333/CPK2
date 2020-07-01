@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
+
 using CPK.ProductsModule.Dto;
 using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryPorts;
 using CPK.ProductsModule.SecondaryPorts;
 using CPK.SharedModule;
+using CPK.SharedModule.Entities;
 
 namespace CPK.ProductsModule.PrimaryAdapters
 {
@@ -37,7 +39,7 @@ namespace CPK.ProductsModule.PrimaryAdapters
             return new PageResult<ConcurrencyToken<Product>>(request.PageFilter, products, (uint)total);
         }
 
-        public async Task<int> Remove(ConcurrencyToken<ProductId> request)
+        public async Task<int> Remove(ConcurrencyToken<Id> request)
         {
             if (request.Entity != default || string.IsNullOrWhiteSpace(request.Token))
                 throw new ArgumentNullException(nameof(request));

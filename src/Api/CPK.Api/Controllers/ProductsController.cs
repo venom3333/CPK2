@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CPK.Api.Models;
 using CPK.ProductsModule.Dto;
 using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryPorts;
 using CPK.SharedModule;
+using CPK.SharedModule.Entities;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
@@ -45,7 +48,7 @@ namespace CPK.Api.Controllers
         public async Task<Guid> Add(AddProductModel model)
         {
             var id = Guid.NewGuid();
-            await _service.Add(new Product(new ProductId(id), new Title(model.Title), new Money(model.Price), new Image(model.ImageId)));
+            await _service.Add(new Product(new Id(id), new Title(model.Title), new Money(model.Price), new Image(model.ImageId)));
             return id;
         }
 
@@ -58,7 +61,7 @@ namespace CPK.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<int> Remove(Guid id, string version)
         {
-            return await _service.Remove(new ConcurrencyToken<ProductId>(version, new ProductId(id)));
+            return await _service.Remove(new ConcurrencyToken<Id>(version, new Id(id)));
         }
     }
 }

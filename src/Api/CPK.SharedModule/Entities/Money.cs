@@ -1,7 +1,7 @@
-﻿using CPK.SharedModule.Entities;
+﻿
 using FluentValidationGuard;
 
-namespace CPK.ProductsModule.Entities
+namespace CPK.SharedModule.Entities
 {
     public readonly struct Money
     {

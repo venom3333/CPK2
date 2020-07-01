@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 using CPK.Api.SecondaryAdapters.Dto;
 using CPK.ProductsModule.Dto;
 using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.SecondaryPorts;
 using CPK.SharedModule;
+using CPK.SharedModule.Entities;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace CPK.Api.SecondaryAdapters.Repositories
@@ -45,13 +48,13 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             _context.UpdateWithToken<Product, ProductDto, Guid>(product, original);
         }
 
-        public async Task Remove(ConcurrencyToken<ProductId> id)
+        public async Task Remove(ConcurrencyToken<Id> id)
         {
             var original = await _context.Products.SingleAsync(p => p.Id == id.Entity.Value);
-            _context.DeleteWithToken<ProductId, ProductDto, Guid>(id, original);
+            _context.DeleteWithToken<Id, ProductDto, Guid>(id, original);
         }
 
-        public async Task<ConcurrencyToken<Product>> Get(ProductId id)
+        public async Task<ConcurrencyToken<Product>> Get(Id id)
         {
             var product = await _context.Products.FindAsync(id.Value);
             if (product == null)

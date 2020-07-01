@@ -1,14 +1,16 @@
 ﻿using System;
+
 using CPK.SharedModule.Entities;
+
 using FluentValidationGuard;
 
 namespace CPK.ProductsModule.Entities
 {
     public class Product
     {
-        public Product(Title title, Money price, Image image) : this(new ProductId(Guid.NewGuid()), title, price, image) { }
+        public Product(Title title, Money price, Image image) : this(new Id(Guid.NewGuid()), title, price, image) { }
 
-        public Product(ProductId id, Title title, Money price, Image image)
+        public Product(Id id, Title title, Money price, Image image)
         {
             Id = id;
             Title = title;
@@ -26,7 +28,7 @@ namespace CPK.ProductsModule.Entities
                 .ThrowApiException(nameof(Product), nameof(Product));
         }
 
-        public ProductId Id { get; }
+        public Id Id { get; }
         public Title Title { get; }
         public Money Price { get; }
         public Image Image { get; }

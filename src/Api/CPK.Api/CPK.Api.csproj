@@ -22,6 +22,7 @@
     <ProjectReference Include="..\CPK.BasketModule\CPK.BasketModule.csproj" />
     <ProjectReference Include="..\CPK.FilesModule\CPK.FilesModule.csproj" />
     <ProjectReference Include="..\CPK.OrdersModule\CPK.OrdersModule.csproj" />
+    <ProjectReference Include="..\CPK.ProductCategoriesModule\CPK.ProductCategoriesModule.csproj" />
     <ProjectReference Include="..\CPK.ProductsModule\CPK.ProductsModule.csproj" />
     <ProjectReference Include="..\CPK.SharedModule\CPK.SharedModule.csproj" />
   </ItemGroup>

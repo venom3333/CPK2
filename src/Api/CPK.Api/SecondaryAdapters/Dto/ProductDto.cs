@@ -4,6 +4,7 @@ using CPK.BasketModule.Entities;
 using CPK.OrdersModule.Entities;
 using CPK.ProductsModule.Entities;
 using CPK.SharedModule;
+using CPK.SharedModule.Entities;
 
 namespace CPK.Api.SecondaryAdapters.Dto
 {
@@ -14,11 +15,12 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public Guid ImageId { get; set; }
         public List<OrderLineDto> Orders { get; set; } = new List<OrderLineDto>();
         public List<BasketLineDto> Baskets { get; set; } = new List<BasketLineDto>();
+        public List<ProductCategoryDto> ProductCategories { get; set; } = new List<ProductCategoryDto>();
 
         public ProductDto()
         {
-            
         }
+
         public ProductDto(Guid id, string token, string title, decimal price, Guid imageId)
         {
             Id = id;
@@ -28,13 +30,18 @@ namespace CPK.Api.SecondaryAdapters.Dto
             ImageId = imageId;
         }
 
-        public ConcurrencyToken<Product> ToProduct() => new ConcurrencyToken<Product>(ConcurrencyToken, new Product(new ProductId(Id), new Title(Title), new Money(Price), new Image(ImageId)));
-        public ConcurrencyToken<BasketProduct> ToBasketProduct() => new ConcurrencyToken<BasketProduct>(ConcurrencyToken, new BasketProduct(Id, Title, Price));
-        public ConcurrencyToken<OrderProduct> ToOrderProduct() => new ConcurrencyToken<OrderProduct>(ConcurrencyToken, new OrderProduct(Id, Title, Price));
+        public ConcurrencyToken<Product> ToProduct() => new ConcurrencyToken<Product>(ConcurrencyToken,
+            new Product(new Id(Id), new Title(Title), new Money(Price), new Image(ImageId)));
 
-        public ProductDto(Product product, string version) : this(product.Id.Value, version, product.Title.Value, product.Price.Value, product.Image.Id)
+        public ConcurrencyToken<BasketProduct> ToBasketProduct() =>
+            new ConcurrencyToken<BasketProduct>(ConcurrencyToken, new BasketProduct(Id, Title, Price));
+
+        public ConcurrencyToken<OrderProduct> ToOrderProduct() =>
+            new ConcurrencyToken<OrderProduct>(ConcurrencyToken, new OrderProduct(Id, Title, Price));
+
+        public ProductDto(Product product, string version) : this(product.Id.Value, version, product.Title.Value,
+            product.Price.Value, product.Image.Id)
         {
-
         }
 
         public ProductDto(OrderProduct product, string version)

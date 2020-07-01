@@ -1,8 +1,10 @@
 ﻿using System;
+
 using CPK.BasketModule.Entities;
 using CPK.OrdersModule.Entities;
 using CPK.ProductsModule.Entities;
 using CPK.SharedModule;
+using CPK.SharedModule.Entities;
 
 namespace CPK.Api.Models
 {
@@ -28,7 +30,7 @@ namespace CPK.Api.Models
             ImageId = product.Entity.Image.Id;
         }
 
-        public ConcurrencyToken<Product> ToProduct() => new ConcurrencyToken<Product>(Version, new Product(new ProductId(Id), new Title(Title), new Money(Price), new Image(ImageId)));
+        public ConcurrencyToken<Product> ToProduct() => new ConcurrencyToken<Product>(Version, new Product(new Id(Id), new Title(Title), new Money(Price), new Image(ImageId)));
         public BasketProduct ToBasketProduct() => new BasketProduct(Id, Title, Price);
         public OrderProduct ToOrderProduct() => new OrderProduct(Id, Title, Price);
     }
