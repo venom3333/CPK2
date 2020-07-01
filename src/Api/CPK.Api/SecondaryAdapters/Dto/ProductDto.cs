@@ -13,6 +13,8 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public string Title { get; set; }
         public decimal Price { get; set; }
         public Guid ImageId { get; set; }
+        
+        public ProductCategoryDto Category { get; set; }
         public List<OrderLineDto> Orders { get; set; } = new List<OrderLineDto>();
         public List<BasketLineDto> Baskets { get; set; } = new List<BasketLineDto>();
         public List<ProductCategoryDto> ProductCategories { get; set; } = new List<ProductCategoryDto>();

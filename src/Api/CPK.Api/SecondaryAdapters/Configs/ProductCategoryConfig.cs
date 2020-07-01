@@ -10,6 +10,8 @@ namespace CPK.Api.SecondaryAdapters.Configs
         {
             builder.HasKey(b => b.Id);
             builder.HasAlternateKey(b => b.Title);
+            builder.HasMany(b => b.Products)
+                .WithOne(p => p.Category);
         }
     }
 }
