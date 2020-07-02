@@ -41,10 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.SharedConfiguration", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.ProductCategoriesModule", "src\Api\CPK.ProductCategoriesModule\CPK.ProductCategoriesModule.csproj", "{2DA38B14-1F58-42A1-B4A0-EE7E4C420976}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedData", "SharedData", "{B8845C3E-AAC5-431C-81A9-FAA22F2EB645}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPK.Models", "src\SharedData\CPK.Models\CPK.Models.csproj", "{F5B1F893-F016-456B-AA7F-C908F3367E06}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,10 +95,6 @@ Global
 		{2DA38B14-1F58-42A1-B4A0-EE7E4C420976}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DA38B14-1F58-42A1-B4A0-EE7E4C420976}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DA38B14-1F58-42A1-B4A0-EE7E4C420976}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5B1F893-F016-456B-AA7F-C908F3367E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5B1F893-F016-456B-AA7F-C908F3367E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5B1F893-F016-456B-AA7F-C908F3367E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5B1F893-F016-456B-AA7F-C908F3367E06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,7 +109,6 @@ Global
 		{03FA36E0-2763-4C85-9D5C-48A9A0B744D7} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
 		{C7DD589E-5859-462C-A42C-8BF638359F7D} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
 		{2DA38B14-1F58-42A1-B4A0-EE7E4C420976} = {80806BB4-9B16-423D-ABB2-EE35E7338818}
-		{F5B1F893-F016-456B-AA7F-C908F3367E06} = {B8845C3E-AAC5-431C-81A9-FAA22F2EB645}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DFFF8D5F-25DE-4C0E-9BEE-175B1E28337B}
