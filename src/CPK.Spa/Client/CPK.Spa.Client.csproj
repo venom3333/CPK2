@@ -39,6 +39,5 @@
   <ItemGroup>
     <Folder Include="Pages\Admin\News\" />
     <Folder Include="Pages\Admin\Products\" />
-    <Folder Include="Pages\Admin\ProductCategories\" />
   </ItemGroup>
 </Project>

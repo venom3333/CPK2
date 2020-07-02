@@ -18,10 +18,16 @@ namespace CPK.Spa.Client.Core.Repositories
             _http = http;
         }
 
-        public Task<(PageResultModel<ProductModel>, string)> GetFiltered(ProductsFilterModel model)
+        public Task<(PageResultModel<ProductModel>, string)> GetFilteredProducts(ProductsFilterModel model)
         {
             var url = GetFullUrl("/products/filter");
             return _http.PostAsync<PageResultModel<ProductModel>>(url, model, false);
+        }
+
+        public Task<(PageResultModel<ProductCategoryModel>, string)> GetFilteredProductCategories(ProductCategoriesFilterModel model)
+        {
+            var url = GetFullUrl("/productCategories/filter");
+            return _http.PostAsync<PageResultModel<ProductCategoryModel>>(url, model, false);
         }
 
         public Task<(int, string)> AddToBasket(ProductModel product)

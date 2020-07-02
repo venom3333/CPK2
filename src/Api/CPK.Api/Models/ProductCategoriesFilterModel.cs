@@ -3,7 +3,7 @@ using CPK.ProductsModule.Dto;
 
 namespace CPK.Api.Models
 {
-    public sealed class ProductCategoriesPageModel
+    public sealed class ProductCategoriesFilterModel
     {
         public uint Take { get; set; }
         public uint Skip { get; set; }

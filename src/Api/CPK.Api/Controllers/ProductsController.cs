@@ -33,9 +33,9 @@ namespace CPK.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("filter")]
-        public async Task<IActionResult> GetAll(ProductsPageModel page)
+        public async Task<IActionResult> GetAll(ProductsFilterModel filter)
         {
-            var products = await _service.Get(new ProductsFilter(new PageFilter(page.Skip, page.Take, MAX_TAKE), page.Title, page.MinPrice, page.MaxPrice, page.Descending, page.OrderBy));
+            var products = await _service.Get(new ProductsFilter(new PageFilter(filter.Skip, filter.Take, MAX_TAKE), filter.Title, filter.MinPrice, filter.MaxPrice, filter.Descending, filter.OrderBy));
             return Ok(new PageResultModel<ProductModel>()
             {
                 ProductsFilter = products.PageFilter,

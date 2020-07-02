@@ -7,7 +7,7 @@ namespace CPK.Spa.Client.Core.Repositories
 {
     public interface IApiRepository
     {
-        Task<(PageResultModel<ProductModel>, string)> GetFiltered(ProductsFilterModel model);
+        Task<(PageResultModel<ProductModel>, string)> GetFilteredProducts(ProductsFilterModel model);
         Task<(int, string)> AddToBasket(ProductModel product);
         Task<(BasketModel, string)> GetBasket();
         Task<(int, string)> Remove(Guid id);
@@ -15,5 +15,6 @@ namespace CPK.Spa.Client.Core.Repositories
         Task<(Guid, string)> CreateOrder(IEnumerable<LineModel> lines, string address);
         Task<(List<OrderModel>, string)> GetOrders();
         string GetFullUrl(string path);
+        Task<(PageResultModel<ProductCategoryModel>, string)> GetFilteredProductCategories(ProductCategoriesFilterModel model);
     }
 }

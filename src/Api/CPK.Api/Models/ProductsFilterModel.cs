@@ -2,7 +2,7 @@
 
 namespace CPK.Api.Models
 {
-    public sealed class ProductsPageModel
+    public sealed class ProductsFilterModel
     {
         public uint Take { get; set; }
         public uint Skip { get; set; }

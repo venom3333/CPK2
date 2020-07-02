@@ -91,8 +91,10 @@ namespace CPK.Spa.Client
             services.AddScoped<IApiRepository, ApiRepository>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IProductCategoriesService, ProductCategoriesService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<ProductsViewModel>();
+            services.AddScoped<ProductCategoriesViewModel>();
             services.AddScoped<BasketViewModel>();
             services.AddScoped<OrdersViewModel>();
         }

@@ -24,7 +24,7 @@ namespace CPK.Spa.Client.Core.Services
         public async Task Load(ProductsFilterModel filter)
         {
             _logger.LogDebug("LOAD PRODUCTS!");
-            var (r, e) = await _repository.GetFiltered(filter);
+            var (r, e) = await _repository.GetFilteredProducts(filter);
             _page = r;
             Error = e;
         }
