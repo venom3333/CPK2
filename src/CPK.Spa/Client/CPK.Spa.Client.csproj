@@ -36,4 +36,9 @@
   <ItemGroup>
     <ProjectReference Include="..\..\CPK.Contracts\CPK.Contracts.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Admin\News\" />
+    <Folder Include="Pages\Admin\Products\" />
+    <Folder Include="Pages\Admin\ProductCategories\" />
+  </ItemGroup>
 </Project>
