@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase
+@using CPK.Spa.Client.Pages.Admin
+<header id="pageHeader">
+    <div id="mainLogo">
+        <a href="/"><img class="logo-icon" src="/images/logo-cpk.png" alt="Logo"></a>
+    </div>
+    <div id="authDisplay">
+        <LoginDisplay />
+    </div>
+</header>
+
+<article id="mainArticle">
+    <div class="content px-4">
+        @Body
+    </div>
+</article>
+
+<nav id="mainNav">
+    <AdminMenu />
+</nav>
+
+<div id="siteAds"></div>
+
+<footer id="pageFooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                2020 - @DateTime.UtcNow.Year
+            </div>
+        </div>
+    </div>
+</footer>

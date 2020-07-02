@@ -4,13 +4,14 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
-                    <RedirectToLogin />
+                    @*<HandleAccessDenied />*@
+                    <NotAuthorizedManager />
                 </NotAuthorized>
             </AuthorizeRouteView>
         </Found>
         <NotFound>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
+                <p>Ой. По данному адресу ничего не найдено.</p>
             </LayoutView>
         </NotFound>
     </Router>

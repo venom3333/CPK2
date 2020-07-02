@@ -1,0 +1,11 @@
+@inject NavigationManager Navigation
+<AuthorizeView>
+    <Authorized>
+        @* User is logged in, but doesn't have access to the specified resource *@
+        <h1>Доступ запрещен</h1>
+    </Authorized>
+    <NotAuthorized>
+        @* User is not logged in, so try to log in *@
+        <RedirectToLogin />
+    </NotAuthorized>
+</AuthorizeView>

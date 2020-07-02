@@ -1,0 +1,8 @@
+﻿@page "/admin"
+@layout AdminLayout
+@attribute [Authorize(Roles = "cpkadmin")]
+
+<h1>Админка</h1>
+
+<SurveyPrompt Title="Главная страница админки" />
+<ClaimsList />

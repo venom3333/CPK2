@@ -16,6 +16,11 @@
                 <button @onclick="UserManagement">Пользователи</button>
             </Authorized>
         </AuthorizeView>
+        <AuthorizeView Context="UserManagementContext" Roles="cpkadmin">
+            <Authorized>
+                <button @onclick="AdminPanel">Администрирование</button>
+            </Authorized>
+        </AuthorizeView>
     </Authorized>
     <NotAuthorized>
         <button @onclick="Login">Вход</button>
@@ -48,5 +53,10 @@
     private void UserManagement(MouseEventArgs args)
     {
         Navigation.NavigateTo($"{ConfigModel.SsoUri}/UserManagement/index?returnUrl={Navigation.BaseUri}");
+    }
+
+    private void AdminPanel(MouseEventArgs args)
+    {
+        Navigation.NavigateTo($"admin");
     }
 }
