@@ -73,5 +73,23 @@ namespace CPK.Spa.Client.Core.Repositories
             path = path.StartsWith('/') ? path : ("/" + path);
             return $"{uri}api/v1{path}";
         }
+
+        public Task<(Guid, string)> CreateCategory(ProductCategoryModel model)
+        {
+            var url = GetFullUrl("/productCategories/add");
+            return _http.PostAsync<Guid>(url, model);
+        }
+
+        public Task<(int, string)> UpdateCategory(ProductCategoryModel model)
+        {
+            var url = GetFullUrl("/productCategories/Update");
+            return _http.PutAsync<int>(url, model);
+        }
+
+        public Task<(int, string)> RemoveCategory(Guid id, string version)
+        {
+            var url = GetFullUrl($"/productCategories/remove/{id}/{version}");
+            return _http.DeleteAsync<int>(url);
+        }
     }
 }

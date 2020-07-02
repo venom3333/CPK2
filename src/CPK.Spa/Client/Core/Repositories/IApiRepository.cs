@@ -16,5 +16,8 @@ namespace CPK.Spa.Client.Core.Repositories
         Task<(List<OrderModel>, string)> GetOrders();
         string GetFullUrl(string path);
         Task<(PageResultModel<ProductCategoryModel>, string)> GetFilteredProductCategories(ProductCategoriesFilterModel model);
+        Task<(Guid, string)> CreateCategory(ProductCategoryModel model);
+        Task<(int, string)> UpdateCategory(ProductCategoryModel model);
+        Task<(int, string)> RemoveCategory(Guid id, string version);
     }
 }

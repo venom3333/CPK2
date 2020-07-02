@@ -1,6 +1,12 @@
 @page "/admin/categories"
+@layout AdminLayout
+@attribute [Authorize(Roles = "cpkadmin")]
 @inject ProductCategoriesViewModel ViewModel
+@inject NavigationManager NavigationManager
 <h3>Категории</h3>
+<div>
+    <button @onclick="@Create">Новая категория</button>
+</div>
 <div class="jumbotron col-md-6">
     <EditForm EditContext="@ViewModel.FilterFormEditContext" OnValidSubmit="@ViewModel.HandleValidSubmit">
         <DataAnnotationsValidator />
@@ -34,9 +40,9 @@
             </tr>
         </thead>
         <tbody>
-            @if (ViewModel.Model != null)
+            @if (ViewModel.List != null)
             {
-                @foreach (var item in ViewModel.Model)
+                @foreach (var item in ViewModel.List)
                 {
                     <tr>
                         <td><img src="@(ViewModel.ImageUrl(item))" /></td>
@@ -46,7 +52,11 @@
                             <input type="button"
                                    value="Редактировать"
                                    class="btn btn-success"
-                                   @onclick="@(async x=> await ViewModel.Edit(item, x))" />
+                                   @onclick="@(async x => Edit(item.Id.ToString(), x))" />
+                            <input type="button"
+                                   value="Удалить"
+                                   class="btn btn-success"
+                                   @onclick="@(async x => Delete(item.Id.ToString(), x))" />
                         </td>
                     </tr>
                 } }
@@ -73,5 +83,20 @@
         {
             ex.Redirect();
         }
+    }
+
+    private void Create(MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo("/admin/createcategory");
+    }
+
+    private void Edit(string id, MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo($"/admin/createcategory/{id}");
+    }
+
+    private void Delete(string id, MouseEventArgs args)
+    {
+        NavigationManager.NavigateTo($"/admin/createcategory/{id}");
     }
 }

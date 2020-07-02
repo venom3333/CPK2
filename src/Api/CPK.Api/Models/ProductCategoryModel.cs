@@ -32,6 +32,12 @@ namespace CPK.Api.Models
         }
 
         public ConcurrencyToken<ProductCategory> ToProductCategory() =>
-            new ConcurrencyToken<ProductCategory>(Version, new ProductCategory(new Id(Id), new Title(Title), new ProductCategoryShortDescription(ShortDescription), new Image(ImageId)));
+            new ConcurrencyToken<ProductCategory>(
+                Version,
+                new ProductCategory(
+                    new Id(Id),
+                    new Title(Title),
+                    new ProductCategoryShortDescription(ShortDescription),
+                    new Image(ImageId)));
     }
 }

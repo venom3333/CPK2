@@ -20,7 +20,7 @@ namespace CPK.Api.Controllers
 {
     [ApiController]
     [Route("api/v1/productcategories")]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "cpkadmin")]
     public sealed class ProductCategoriesController : ControllerBase
     {
         private readonly IProductCategoriesService _service;
@@ -38,7 +38,7 @@ namespace CPK.Api.Controllers
         [HttpPost("filter")]
         public async Task<IActionResult> GetAll(ProductCategoriesFilterModel filter)
         {
-            var productCategories = await _service.Get(new ProductCategoriesFilter(new PageFilter(filter.Skip, filter.Take, MaxTake), filter.Title, filter.Descending, filter.OrderBy));
+            var productCategories = await _service.Get(new ProductCategoriesFilter(new PageFilter(filter.Skip, filter.Take, MaxTake), filter.Id, filter.Title, filter.Descending, filter.OrderBy));
             return Ok(new PageResultModel<ProductCategoryModel>()
             {
                 ProductsFilter = productCategories.PageFilter,
@@ -47,7 +47,7 @@ namespace CPK.Api.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<Guid> Add(AddProductCategoryModel model)
         {
             var id = Guid.NewGuid();
@@ -55,16 +55,16 @@ namespace CPK.Api.Controllers
             return id;
         }
 
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<int> Update(ProductCategoryModel model)
         {
             return await _service.Update(model.ToProductCategory());
         }
 
-        [HttpDelete("{id}")]
-        public async Task<int> Remove(Guid id, string version)
+        [HttpDelete("remove/{id}/{version}")]
+        public async Task<int> Remove(string id, string version)
         {
-            return await _service.Remove(new ConcurrencyToken<Id>(version, new Id(id)));
+            return await _service.Remove(new ConcurrencyToken<Id>(version, new Id(new Guid(id))));
         }
     }
 }

@@ -19,16 +19,31 @@ namespace CPK.Spa.Client.Core.Services
             _page = new PageResultModel<ProductCategoryModel>();
         }
         public string Error { get; private set; }
-        public IReadOnlyList<ProductCategoryModel> Model => _page?.Value?.AsReadOnly();
+        public IReadOnlyList<ProductCategoryModel> List => _page?.Value?.AsReadOnly();
         public int TotalCount => _page?.TotalCount ?? 0;
         public async Task Load(ProductCategoriesFilterModel filter)
         {
-            _logger.LogDebug("LOAD PRODUCTS!");
+            _logger.LogDebug("LOAD CATEGORIES!");
             var (r, e) = await _repository.GetFilteredProductCategories(filter);
             _page = r;
             Error = e;
         }
 
         public string ImageUri(ProductCategoryModel model) => _repository.GetFullUrl($"files/{model.ImageId}");
+
+        public async Task Create(ProductCategoryModel model)
+        {
+            await _repository.CreateCategory(model);
+        }
+
+        public async Task Update(ProductCategoryModel model)
+        {
+            await _repository.UpdateCategory(model);
+        }
+
+        public async Task Delete(ProductCategoryModel model)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

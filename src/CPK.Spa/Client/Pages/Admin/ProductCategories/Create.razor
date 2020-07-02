@@ -1,0 +1,81 @@
+﻿@page "/admin/createcategory"
+@page "/admin/createcategory/{id}"
+@using CPK.Spa.Client.Core.Models
+@layout AdminLayout
+@attribute [Authorize(Roles = "cpkadmin")]
+@inject ProductCategoriesViewModel ViewModel
+@inject NavigationManager NavigationManager
+<h3>@(IsCreate? "Создание категории" : "Редактирование категории")</h3>
+
+<EditForm EditContext="@ViewModel.FilterFormEditContext" OnValidSubmit="@(() => IsCreate? CreateCategory() : UpdateCategory())">
+    <DataAnnotationsValidator />
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="title">Наименование</label>
+            <InputText id="title" @bind-Value="@ViewModel.Title" class="form-control" />
+            <ValidationMessage For="@(() =>ViewModel.Title)" />
+        </div>
+        <div class="form-group col-md-12">
+            <label for="title">Описание</label>
+            <InputTextArea id="shortDescription" @bind-Value="@ViewModel.ShortDescription" class="form-control" />
+            <ValidationMessage For="@(() =>ViewModel.ShortDescription)" />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">@(IsCreate ? "Создать" : "Обновить")</button>
+    <button class="btn btn-primary" @onclick="@NavigateToList">Отмена</button>
+</EditForm>
+<div>
+    <Error Model="@ViewModel.Error" />
+    <Error Model="@Error" />
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+    private ProductCategoryModel Model { get; set; }
+    private string Error { get; set; }
+
+    private bool IsCreate = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(Id))
+            {
+                ViewModel.Filter.Id = new Guid(Id);
+                await ViewModel.OnInitializedAsync();
+                Model = ViewModel.List.FirstOrDefault();
+                if (Model == null) NavigateToList();
+
+                ViewModel.Title = Model.Title;
+                ViewModel.ShortDescription = Model.ShortDescription;
+                IsCreate = false;
+            }
+        }
+        catch (Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccessTokenNotAvailableException ex)
+        {
+            ex.Redirect();
+        }
+    }
+
+    private async Task CreateCategory()
+    {
+        var model = new ProductCategoryModel { Title = ViewModel.Title, ShortDescription = ViewModel.ShortDescription };
+        await ViewModel.Create(model);
+        Error = "CreateCategory complete";
+        //NavigateToList();
+    }
+
+    private async Task UpdateCategory()
+    {
+        var model = new ProductCategoryModel { Id = new Guid(Id), Title = ViewModel.Title, ShortDescription = ViewModel.ShortDescription, Version = Model.Version };
+        await ViewModel.Update(model);
+        Error = "UpdateCategory complete";
+        //NavigateToList();
+    }
+
+    private void NavigateToList()
+    {
+        NavigationManager.NavigateTo($"/admin/categories");
+    }
+}

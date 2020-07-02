@@ -32,7 +32,7 @@ namespace CPK.Spa.Client.ViewModels
 
         public async Task OnInitializedAsync()
         {
-              await LoadFromServerAsync();
+            await LoadFromServerAsync();
         }
 
         public PaginatorModel Paginator { get; } = new PaginatorModel()
@@ -43,6 +43,7 @@ namespace CPK.Spa.Client.ViewModels
             ItemsTotalCount = 0
         };
 
+        public string Id { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public int Skip => Paginator.ItemsPerPage * Paginator.CurrentPage;
@@ -58,7 +59,18 @@ namespace CPK.Spa.Client.ViewModels
             [ProductCategoryOrderBy.Title] = new SortableTableHeaderModel()
         };
         public string Error => _service.Error;
-        public IReadOnlyList<ProductCategoryModel> Model => _service.Model;
+        public IReadOnlyList<ProductCategoryModel> List => _service.List;
+
+        public ProductCategoryViewModelState State;
+
+        public void ChangeState(string value)
+        {
+            State = ProductCategoryViewModelState.View;
+            if (string.IsNullOrWhiteSpace(value))
+                return;
+            if (Enum.TryParse(value, true, out ProductCategoryViewModelState state))
+                State = state;
+        }
 
         public async Task HandleValidSubmit()
         {
@@ -72,7 +84,19 @@ namespace CPK.Spa.Client.ViewModels
             await LoadFromServerAsync();
         }
 
-        public async Task Edit(ProductCategoryModel model, MouseEventArgs mouseEventArgs = null)
+        public async Task Create(ProductCategoryModel model)
+        {
+            await _service.Create(model);
+            return;
+        }
+
+        public async Task Update(ProductCategoryModel model)
+        {
+            await _service.Update(model);
+            return;
+        }
+
+        public async Task Delete(ProductCategoryModel model)
         {
             Console.WriteLine(model.Title);
             await Task.CompletedTask;

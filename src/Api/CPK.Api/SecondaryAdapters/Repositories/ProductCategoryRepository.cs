@@ -65,22 +65,30 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             return productCategory.ToProductCategory();
         }
 
-        public Task<int> Count(ProductCategoriesFilter productsFilter) => Filter(productsFilter).CountAsync();
+        public Task<int> Count(ProductCategoriesFilter filter) => Filter(filter).CountAsync();
 
-        private IQueryable<ProductCategoryDto> Filter(ProductCategoriesFilter productsFilter)
+        private IQueryable<ProductCategoryDto> Filter(ProductCategoriesFilter filter)
         {
-            var query = string.IsNullOrWhiteSpace(productsFilter.Title)
-                ? _context.ProductCategories
-                : _context.ProductCategories.Where(x => x.Title.Contains(productsFilter.Title));
+            var query = _context.ProductCategories.AsQueryable();
+            if (filter.Id != default)
+            {
+                query = query.Where(x => x.Id == filter.Id);
+            }
+            else
+            {
+                query = string.IsNullOrWhiteSpace(filter.Title)
+                    ? query
+                    : query.Where(x => x.Title.Contains(filter.Title));
+            }
             return query;
         }
 
-        private IOrderedQueryable<ProductCategoryDto> Order(ProductCategoriesFilter productsFilter, IQueryable<ProductCategoryDto> query)
+        private IOrderedQueryable<ProductCategoryDto> Order(ProductCategoriesFilter filter, IQueryable<ProductCategoryDto> query)
         {
-            return productsFilter.OrderBy switch
+            return filter.OrderBy switch
             {
-                ProductCategoryOrderBy.Id => productsFilter.Descending ? query.OrderByDescending(x => x.Id) : query.OrderBy(x => x.Id),
-                ProductCategoryOrderBy.Title => productsFilter.Descending ? query.OrderByDescending(x => x.Title) : query.OrderBy(x => x.Title),
+                ProductCategoryOrderBy.Id => filter.Descending ? query.OrderByDescending(x => x.Id) : query.OrderBy(x => x.Id),
+                ProductCategoryOrderBy.Title => filter.Descending ? query.OrderByDescending(x => x.Title) : query.OrderBy(x => x.Title),
                 _ => throw new NotImplementedException()
             };
         }

@@ -14,6 +14,8 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public string Title { get; set; }
         public string ShortDescription { get; set; }
         public Guid ImageId { get; set; }
+
+        public FileDto Image { get; set; }
         public List<ProductDto> Products { get; set; } = new List<ProductDto>();
 
         public ProductCategoryDto()

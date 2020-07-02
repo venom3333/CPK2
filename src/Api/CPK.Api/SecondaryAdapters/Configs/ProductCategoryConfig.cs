@@ -1,4 +1,5 @@
 ﻿using CPK.Api.SecondaryAdapters.Dto;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -6,12 +7,18 @@ namespace CPK.Api.SecondaryAdapters.Configs
 {
     internal sealed class ProductCategoryConfig : IEntityTypeConfiguration<ProductCategoryDto>
     {
-        public void Configure(EntityTypeBuilder<ProductCategoryDto> builder)
+        public void Configure(EntityTypeBuilder<ProductCategoryDto> entity)
         {
-            builder.HasKey(b => b.Id);
-            builder.HasAlternateKey(b => b.Title);
-            builder.HasMany(b => b.Products)
+            entity.HasKey(e => e.Id);
+
+            entity.HasAlternateKey(e => e.Title);
+
+            entity.HasMany(e => e.Products)
                 .WithOne(p => p.Category);
+
+            entity.HasOne(x => x.Image)
+                .WithMany()
+                .HasForeignKey(x => x.ImageId);
         }
     }
 }
