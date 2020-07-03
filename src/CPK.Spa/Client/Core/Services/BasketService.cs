@@ -44,7 +44,7 @@ namespace CPK.Spa.Client.Core.Services
 
         public async Task Remove(ProductModel product)
         {
-            var (_, e) = await _repository.Remove(product.Id);
+            var (_, e) = await _repository.RemoveProduct(product.Id);
             Error = e;
             if (!string.IsNullOrWhiteSpace(e))
                 return;

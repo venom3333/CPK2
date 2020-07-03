@@ -104,8 +104,7 @@ namespace CPK.Spa.Client.ViewModels
 
         public async Task Delete(ProductCategoryModel model)
         {
-            Console.WriteLine(model.Title);
-            await Task.CompletedTask;
+            await _service.Delete(model);
             return;
         }
 

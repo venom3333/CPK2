@@ -11,7 +11,7 @@ namespace CPK.Spa.Client.Core.Repositories
         Task<(PageResultModel<ProductModel>, string)> GetFilteredProducts(ProductsFilterModel model);
         Task<(int, string)> AddToBasket(ProductModel product);
         Task<(BasketModel, string)> GetBasket();
-        Task<(int, string)> Remove(Guid id);
+        Task<(int, string)> RemoveProduct(Guid id);
         Task<(int, string)> ClearBasket();
         Task<(Guid, string)> CreateOrder(IEnumerable<LineModel> lines, string address);
         Task<(List<OrderModel>, string)> GetOrders();

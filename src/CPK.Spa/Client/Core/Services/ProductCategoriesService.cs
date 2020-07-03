@@ -35,18 +35,23 @@ namespace CPK.Spa.Client.Core.Services
         public async Task Create(ProductCategoryModel model)
         {
             var(result, error) = await _repository.CreateCategory(model);
-            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
+            ShowErrorIfNecessary(error);
         }
 
         public async Task Update(ProductCategoryModel model)
         {
             var(result, error) = await _repository.UpdateCategory(model);
-            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
+            ShowErrorIfNecessary(error);
         }
 
         public async Task Delete(ProductCategoryModel model)
         {
-            throw new System.NotImplementedException();
+            var(result, error) = await _repository.RemoveCategory(model.Id, model.Version);
+            ShowErrorIfNecessary(error);
+        }
+
+        private void ShowErrorIfNecessary(string error) {
+            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
         }
     }
 }

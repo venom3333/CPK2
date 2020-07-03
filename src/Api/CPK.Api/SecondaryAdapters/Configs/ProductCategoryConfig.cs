@@ -18,7 +18,8 @@ namespace CPK.Api.SecondaryAdapters.Configs
 
             entity.HasOne(x => x.Image)
                 .WithMany()
-                .HasForeignKey(x => x.ImageId);
+                .HasForeignKey(x => x.ImageId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

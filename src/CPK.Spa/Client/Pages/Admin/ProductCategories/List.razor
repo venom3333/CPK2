@@ -53,10 +53,30 @@
                                    value="Редактировать"
                                    class="btn btn-success"
                                    @onclick="@(async x => Edit(item.Id.ToString(), x))" />
-                            <input type="button"
-                                   value="Удалить"
-                                   class="btn btn-success"
-                                   @onclick="@(async x => Delete(item.Id.ToString(), x))" />
+
+                            @{ if (IdForDelete == null || IdForDelete != item.Id)
+                                {
+                                    <input type="button"
+                                           value="Удалить"
+                                           class="btn btn-warning"
+                                           @onclick="@(async x => Delete(item.Id.ToString(), item.Version, x))" />
+                                }
+                                else
+                                {
+                                    if (IdForDelete == item.Id)
+                                    {
+                                        <input type="button"
+                                               value="Подтвердить"
+                                               class="btn btn-danger"
+                                               @onclick="@(x => DeleteConfirm())" />
+                                        <input type="button"
+                                               value="Отменить"
+                                               class="btn btn-info"
+                                               @onclick="@(x => DeleteCancel())" />
+                                    }
+                                }
+                            }
+
                         </td>
                     </tr>
                 } }
@@ -72,8 +92,12 @@
     </table>
 </div>
 
-@functions
-{ protected override async Task OnInitializedAsync()
+@code
+{
+    private Guid? IdForDelete = null;
+    private string VersionForDelete = null;
+
+    protected override async Task OnInitializedAsync()
     {
         try
         {
@@ -96,8 +120,21 @@
         NavigationManager.NavigateTo($"/admin/createcategory/{id}");
     }
 
-    private void Delete(string id, MouseEventArgs args)
+    private void Delete(string id, string version, MouseEventArgs args)
     {
-        NavigationManager.NavigateTo($"/admin/createcategory/{id}");
+        IdForDelete = new Guid(id);
+        VersionForDelete = version;
+    }
+
+    private void DeleteCancel()
+    {
+        IdForDelete = null;
+        VersionForDelete = null;
+    }
+
+    private async Task DeleteConfirm()
+    {
+        await ViewModel.Delete(new Core.Models.ProductCategoryModel { Id = IdForDelete.Value, Version = VersionForDelete });
+        await ViewModel.OnInitializedAsync();
     }
 }

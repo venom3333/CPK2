@@ -46,7 +46,7 @@ namespace CPK.Spa.Client.Core.Repositories
             return _http.GetAsync<BasketModel>(url);
         }
 
-        public Task<(int, string)> Remove(Guid id)
+        public Task<(int, string)> RemoveProduct(Guid id)
         {
             var url = GetFullUrl($"basket/lines/{id}/remove");
             return _http.PostAsync<int>(url, "");

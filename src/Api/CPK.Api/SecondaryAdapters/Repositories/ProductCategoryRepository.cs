@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,8 +55,20 @@ namespace CPK.Api.SecondaryAdapters.Repositories
 
         public async Task Remove(ConcurrencyToken<Id> id)
         {
-            var original = await _context.Products.SingleAsync(p => p.Id == id.Entity.Value);
-            _context.DeleteWithToken<Id, ProductDto, Guid>(id, original);
+            var original = await _context.ProductCategories.Include(c => c.Image).SingleAsync(p => p.Id == id.Entity.Value);
+            if (original.Image != null)
+            {
+                TryDeleteImage(original.Image);
+            }
+            _context.DeleteWithToken<Id, ProductCategoryDto, Guid>(id, original);
+        }
+
+        private void TryDeleteImage(FileDto originalImage)
+        {
+            if (File.Exists(originalImage.Path))
+            {
+                File.Delete(originalImage.Path);
+            }
         }
 
         public async Task<ConcurrencyToken<ProductCategory>> Get(Id id)

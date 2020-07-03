@@ -39,7 +39,7 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
 
         public async Task<int> Remove(ConcurrencyToken<Id> request)
         {
-            if (request.Entity != default || string.IsNullOrWhiteSpace(request.Token))
+            if (request.Entity == default || string.IsNullOrWhiteSpace(request.Token))
                 throw new ArgumentNullException(nameof(request));
             await _repository.Remove(request);
             var count = await _uow.SaveAsync();
