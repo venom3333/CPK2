@@ -48,6 +48,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             var original = await _context.ProductCategories.SingleAsync(p => p.Id == productCategory.Entity.Id.Value);
             original.ShortDescription = productCategory.Entity.ShortDescription.Value;
             original.Title = productCategory.Entity.Title.Value;
+            original.ImageId = productCategory.Entity.Image.Value;
             _context.UpdateWithToken<ProductCategory, ProductCategoryDto, Guid>(productCategory, original);
         }
 

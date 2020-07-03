@@ -11,7 +11,7 @@ namespace CPK.Api.SecondaryAdapters.Configs
         {
             entity.HasKey(e => e.Id);
 
-            entity.HasAlternateKey(e => e.Title);
+            entity.HasIndex(e => e.Title).IsUnique();
 
             entity.HasMany(e => e.Products)
                 .WithOne(p => p.Category);

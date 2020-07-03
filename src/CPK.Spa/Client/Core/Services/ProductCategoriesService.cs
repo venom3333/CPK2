@@ -34,12 +34,14 @@ namespace CPK.Spa.Client.Core.Services
 
         public async Task Create(ProductCategoryModel model)
         {
-            await _repository.CreateCategory(model);
+            var(result, error) = await _repository.CreateCategory(model);
+            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
         }
 
         public async Task Update(ProductCategoryModel model)
         {
-            await _repository.UpdateCategory(model);
+            var(result, error) = await _repository.UpdateCategory(model);
+            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
         }
 
         public async Task Delete(ProductCategoryModel model)

@@ -9,7 +9,9 @@ using CPK.Spa.Client.Attributes;
 using CPK.Spa.Client.Core.Models;
 using CPK.Spa.Client.Core.Services;
 using CPK.Spa.Client.Models;
+
 using MatBlazor;
+
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
@@ -120,7 +122,7 @@ namespace CPK.Spa.Client.ViewModels
                     FileName = entry.Name,
                     Size = entry.Size
                 };
-                
+
                 var result = await _fileService.Upload(entry);
                 ImageId = result;
             }
@@ -160,6 +162,14 @@ namespace CPK.Spa.Client.ViewModels
             Filter.Take = Take;
             await _service.Load(Filter);
             Paginator.ItemsTotalCount = _service.TotalCount;
+        }
+
+        public void Clear()
+        {
+            Id = default;
+            Title = default;
+            ShortDescription = default;
+            ImageId = default;
         }
     }
 }

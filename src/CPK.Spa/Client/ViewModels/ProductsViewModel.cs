@@ -6,6 +6,8 @@ using CPK.Spa.Client.Attributes;
 using CPK.Spa.Client.Core.Models;
 using CPK.Spa.Client.Core.Services;
 using CPK.Spa.Client.Models;
+
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -42,7 +44,7 @@ namespace CPK.Spa.Client.ViewModels
             ItemsPerPage = 10,
             ItemsTotalCount = 0
         };
-
+        
         [StringLength(30, ErrorMessage = "Название продукта должно быть короче 30 символов")]
         public string Title { get; set; }
         [GreaterOrEqualTo(nameof(Min), "0")]
