@@ -28,7 +28,7 @@ namespace CPK.Api.Models
             Version = productCategory.Token;
             Title = productCategory.Entity.Title.Value;
             ShortDescription = productCategory.Entity.ShortDescription.Value;
-            ImageId = productCategory.Entity.Image.Id;
+            ImageId = productCategory.Entity.Image.Value;
         }
 
         public ConcurrencyToken<ProductCategory> ToProductCategory() =>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CPK.Spa.Client.Core.Models;
 using CPK.Spa.Client.Core.Repositories;
@@ -29,7 +30,7 @@ namespace CPK.Spa.Client.Core.Services
             Error = e;
         }
 
-        public string ImageUri(ProductCategoryModel model) => _repository.GetFullUrl($"files/{model.ImageId}");
+        public string ImageUri(Guid id) => _repository.GetFullUrl($"files/{id}");
 
         public async Task Create(ProductCategoryModel model)
         {

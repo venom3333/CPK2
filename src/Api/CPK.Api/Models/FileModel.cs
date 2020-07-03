@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using CPK.FilesModule.Entities;
 
 namespace CPK.Api.Models
@@ -8,9 +9,11 @@ namespace CPK.Api.Models
         public Guid Id { get; set; }
         public byte[] Hash { get; set; }
         public long Size { get; set; }
-        public string Name { get; set; }
+        public string FileName { get; set; }
         public DateTime Created { get; set; }
         public string ContentType { get; set; }
+
+        public Stream Content { get; set; }
 
         public FileModel()
         {
@@ -22,7 +25,7 @@ namespace CPK.Api.Models
             Id = @base.Id;
             Hash = @base.Hash;
             Size = @base.Size;
-            Name = @base.Name;
+            FileName = @base.Name;
             Created = @base.Created;
             ContentType = @base.ContentType;
         }

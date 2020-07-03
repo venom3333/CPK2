@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Threading.Tasks;
+
 using CPK.Contracts;
 using CPK.Spa.Client.Core.HttpContext;
 using CPK.Spa.Client.Core.Models;
+using MatBlazor;
 
 namespace CPK.Spa.Client.Core.Repositories
 {
@@ -90,6 +94,18 @@ namespace CPK.Spa.Client.Core.Repositories
         {
             var url = GetFullUrl($"/productCategories/remove/{id}/{version}");
             return _http.DeleteAsync<int>(url);
+        }
+
+        public async Task<(Guid, string)> UploadFile(FileModel model)
+        {
+            var url = GetFullUrl("/files/upload");
+            var result = await _http.PostFileAsync<Guid>(url, model);
+            return result;
+        }
+
+        public async Task<(FileModel, string)> GetFile(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -6,14 +6,14 @@ namespace CPK.SharedModule.Entities
 {
     public readonly struct Image
     {
-        public Guid Id { get; }
+        public Guid Value { get; }
 
         public Image(Guid id)
         {
             Validator.Begin(id, nameof(id))
                 .NotDefault()
                 .ThrowApiException(nameof(Image), nameof(Image));
-            Id = id;
+            Value = id;
         }
     }
 }

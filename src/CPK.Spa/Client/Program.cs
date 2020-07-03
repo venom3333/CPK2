@@ -93,6 +93,7 @@ namespace CPK.Spa.Client
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IProductCategoriesService, ProductCategoriesService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<ProductsViewModel>();
             services.AddScoped<ProductCategoriesViewModel>();
             services.AddScoped<BasketViewModel>();

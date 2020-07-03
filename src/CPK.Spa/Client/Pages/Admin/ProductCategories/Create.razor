@@ -21,8 +21,19 @@
             <ValidationMessage For="@(() =>ViewModel.ShortDescription)" />
         </div>
     </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <MatFileUpload OnChange="ImageFileReady"
+                           Style="width: 500px; height: 50px"
+                           Label="Перетащите или выберите изображение">
+            </MatFileUpload>
+            <div>
+                <img width="300" src="@(ViewModel.ImageUrl(ViewModel.ImageId))" />
+            </div>
+        </div>
+    </div>
     <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">@(IsCreate ? "Создать" : "Обновить")</button>
-    <button class="btn btn-primary" @onclick="@NavigateToList">Отмена</button>
+    <MatButton OnClick="NavigateToList" Label="Отмена"></MatButton>
 </EditForm>
 <div>
     <Error Model="@ViewModel.Error" />
@@ -49,6 +60,7 @@
 
                 ViewModel.Title = Model.Title;
                 ViewModel.ShortDescription = Model.ShortDescription;
+                ViewModel.ImageId = Model.ImageId;
                 IsCreate = false;
             }
         }
@@ -60,22 +72,63 @@
 
     private async Task CreateCategory()
     {
-        var model = new ProductCategoryModel { Title = ViewModel.Title, ShortDescription = ViewModel.ShortDescription };
+        var model = new ProductCategoryModel {
+            Title = ViewModel.Title,
+            ShortDescription = ViewModel.ShortDescription,
+            ImageId = ViewModel.ImageId
+        };
+
         await ViewModel.Create(model);
-        Error = "CreateCategory complete";
-        //NavigateToList();
+        if (string.IsNullOrWhiteSpace(ViewModel.Error))
+        {
+            NavigateToList();
+        }
     }
 
     private async Task UpdateCategory()
     {
-        var model = new ProductCategoryModel { Id = new Guid(Id), Title = ViewModel.Title, ShortDescription = ViewModel.ShortDescription, Version = Model.Version };
+        var model = new ProductCategoryModel {
+            Id = new Guid(Id),
+            Title = ViewModel.Title,
+            ShortDescription = ViewModel.ShortDescription,
+            Version = Model.Version,
+            ImageId = ViewModel.ImageId
+        };
+
         await ViewModel.Update(model);
-        Error = "UpdateCategory complete";
-        //NavigateToList();
+        if (string.IsNullOrWhiteSpace(ViewModel.Error))
+        {
+            NavigateToList();
+        }
     }
 
     private void NavigateToList()
     {
         NavigationManager.NavigateTo($"/admin/categories");
+    }
+
+    async Task ImageFileReady(IMatFileUploadEntry[] files)
+    {
+        try
+        {
+            //List<Bitmap> images = new List<Bitmap>();
+            foreach (var file in files)
+            {
+                if (file == null)
+                {
+                    continue;
+                }
+                await ViewModel.UploadImage(file);
+            }
+        }
+
+        catch (Exception e)
+        {
+            Error = $"Error:\r\n{e.Message}\r\n{e.StackTrace}";
+        }
+        finally
+        {
+            await InvokeAsync(async () => { this.StateHasChanged(); });
+        }
     }
 }

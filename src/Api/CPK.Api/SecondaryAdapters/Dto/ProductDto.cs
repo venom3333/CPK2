@@ -42,7 +42,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
             new ConcurrencyToken<OrderProduct>(ConcurrencyToken, new OrderProduct(Id, Title, Price));
 
         public ProductDto(Product product, string version) : this(product.Id.Value, version, product.Title.Value,
-            product.Price.Value, product.Image.Id)
+            product.Price.Value, product.Image.Value)
         {
         }
 

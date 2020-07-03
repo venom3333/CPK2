@@ -27,7 +27,7 @@ namespace CPK.Api.Models
             Version = product.Token;
             Title = product.Entity.Title.Value;
             Price = product.Entity.Price.Value;
-            ImageId = product.Entity.Image.Id;
+            ImageId = product.Entity.Image.Value;
         }
 
         public ConcurrencyToken<Product> ToProduct() => new ConcurrencyToken<Product>(Version, new Product(new Id(Id), new Title(Title), new Money(Price), new Image(ImageId)));

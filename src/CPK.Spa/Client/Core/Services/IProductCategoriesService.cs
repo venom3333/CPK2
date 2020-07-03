@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using CPK.Spa.Client.Core.Models;
@@ -14,6 +15,6 @@ namespace CPK.Spa.Client.Core.Services
         Task Delete(ProductCategoryModel model);
         int TotalCount { get; }
         Task Load(ProductCategoriesFilterModel filter);
-        string ImageUri(ProductCategoryModel model);
+        string ImageUri(Guid imageId);
     }
 }
