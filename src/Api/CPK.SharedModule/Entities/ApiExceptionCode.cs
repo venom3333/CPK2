@@ -12,6 +12,7 @@
         BasketIsFull,
         ArgumentException,
         OrderAlreadyDelivered,
-        FileIsNotImage
+        FileIsNotImage,
+        EntityAlreadyExists
     }
 }

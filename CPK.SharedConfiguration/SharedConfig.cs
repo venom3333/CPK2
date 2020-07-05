@@ -6,6 +6,7 @@ namespace CPK.SharedConfiguration
     {
         public static readonly string EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         public static bool IsProduction => EnvironmentName == "Production";
+        public static bool IsDevelopment => EnvironmentName == "Development";
 
         public static EnvironmentNameEnum EnvironmentNameEnum
         {

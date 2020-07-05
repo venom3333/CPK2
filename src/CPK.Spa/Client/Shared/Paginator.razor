@@ -17,6 +17,8 @@
     <li class="page-item"><a class="page-link" href="#" @onclick="@(async e => await LoadPage(Last))" @onclick:preventDefault>&gt;&gt;</a></li>
     <li class="page-item">
         <select id="size" class="form-control" value="@Model.ItemsPerPage" @onchange="@OnItemsPerPageChanged">
+            <option value=2>2</option>
+            <option value=5>5</option>
             <option value=10 selected>10</option>
             <option value=20>20</option>
             <option value=40>40</option>

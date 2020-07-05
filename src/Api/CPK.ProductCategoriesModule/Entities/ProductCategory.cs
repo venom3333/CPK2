@@ -28,10 +28,6 @@ namespace CPK.ProductCategoriesModule.Entities
                 .NotDefault()
                 .Map(title, nameof(title))
                 .NotDefault()
-                .Map(shortDescription, nameof(shortDescription))
-                .NotDefault()
-                .Map(image, nameof(image))
-                .NotDefault()
                 .ThrowApiException(nameof(ProductCategory), nameof(ProductCategory));
         }
     }

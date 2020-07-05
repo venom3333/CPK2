@@ -24,7 +24,7 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
-            _repository.Add(request);
+            await _repository.Add(request);
             return await _uow.SaveAsync();
         }
 

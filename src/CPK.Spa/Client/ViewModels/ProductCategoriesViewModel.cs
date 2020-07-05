@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
+using BlazorInputFile;
+
 using CPK.Spa.Client.Attributes;
 using CPK.Spa.Client.Core.Models;
 using CPK.Spa.Client.Core.Services;
@@ -37,6 +39,7 @@ namespace CPK.Spa.Client.ViewModels
 
         public async Task OnInitializedAsync()
         {
+            FilterFormEditContext = new EditContext(this);
             await LoadFromServerAsync();
         }
 
@@ -49,13 +52,16 @@ namespace CPK.Spa.Client.ViewModels
         };
 
         public string Id { get; set; }
+
+        [Required(ErrorMessage = "Введите наименование")]
         public string Title { get; set; }
         public string ShortDescription { get; set; }
-        public Guid ImageId { get; set; }
+        // [Required(ErrorMessage = "Прикрепите изображение")]
+        public Guid? ImageId { get; set; }
         public int Skip => Paginator.ItemsPerPage * Paginator.CurrentPage;
         public int Take => Paginator.ItemsPerPage;
         public ProductCategoryOrderBy Current { get; set; } = ProductCategoryOrderBy.Id;
-        public EditContext FilterFormEditContext { get; }
+        public EditContext FilterFormEditContext { get; private set; }
         public ProductCategoriesFilterModel Filter { get; set; } = new ProductCategoriesFilterModel()
         {
             OrderBy = ProductCategoryOrderBy.Id
@@ -68,6 +74,11 @@ namespace CPK.Spa.Client.ViewModels
         public IReadOnlyList<ProductCategoryModel> List => _service.List;
 
         public ProductCategoryViewModelState State;
+
+        public void SetError(string error)
+        {
+            _service.SetError(error);
+        }
 
         public void ChangeState(string value)
         {
@@ -128,6 +139,20 @@ namespace CPK.Spa.Client.ViewModels
             return;
         }
 
+        public async Task<Guid> UploadImage(IFileListEntry entry)
+        {
+            FileModel model = new FileModel
+            {
+                ContentType = entry.Type,
+                Content = entry.Data,
+                FileName = entry.Name,
+                Size = entry.Size
+            };
+
+            var result = await _fileService.Upload(model);
+            return result;
+        }
+
         public async Task HandleSort(ProductCategoryOrderBy order)
         {
             foreach (var kv in TableHeaderModel)
@@ -145,7 +170,7 @@ namespace CPK.Spa.Client.ViewModels
             await LoadFromServerAsync();
         }
 
-        public string ImageUrl(Guid imageId) => _service.ImageUri(imageId);
+        public string ImageUrl(Guid? imageId) => _service.ImageUri(imageId);
 
         private async Task<bool> IsAuth()
         {
@@ -163,7 +188,7 @@ namespace CPK.Spa.Client.ViewModels
             Paginator.ItemsTotalCount = _service.TotalCount;
         }
 
-        public void Clear()
+        public void ClearViewModelFields()
         {
             Id = default;
             Title = default;

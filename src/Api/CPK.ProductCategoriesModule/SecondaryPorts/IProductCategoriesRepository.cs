@@ -10,7 +10,7 @@ namespace CPK.ProductCategoriesModule.SecondaryPorts
     public interface IProductCategoriesRepository
     {
         Task<List<ConcurrencyToken<ProductCategory>>> Get(ProductCategoriesFilter productCategoriesFilter);
-        void Add(ProductCategory productCategory);
+        Task Add(ProductCategory productCategory);
         Task Update(ConcurrencyToken<ProductCategory> productCategory);
         Task Remove(ConcurrencyToken<Id> id);
         Task<ConcurrencyToken<ProductCategory>> Get(Id id);

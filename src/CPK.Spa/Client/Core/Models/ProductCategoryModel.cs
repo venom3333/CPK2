@@ -8,6 +8,6 @@ namespace CPK.Spa.Client.Core.Models
         public string Version { get; set; }
         public string Title { get; set; }
         public string ShortDescription { get; set; }
-        public Guid ImageId { get; set; }
+        public Guid? ImageId { get; set; }
     }
 }

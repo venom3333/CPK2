@@ -29,8 +29,8 @@ namespace CPK.FilesModule.PrimaryAdapters
             var old = await _repository.Find(file.Hash, file.Size);
             if (old != default)
                 return old;
-            if (!file.IsImage())
-                throw new ApiException(ApiExceptionCode.FileIsNotImage);
+            // if (!file.IsImage())
+            //     throw new ApiException(ApiExceptionCode.FileIsNotImage);
             await _repository.Add(file);
             await _uow.SaveAsync();
             return file.Id;

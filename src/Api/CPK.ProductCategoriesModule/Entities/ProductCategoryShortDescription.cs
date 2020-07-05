@@ -9,10 +9,10 @@ namespace CPK.ProductCategoriesModule.Entities
 
         public ProductCategoryShortDescription(string value)
         {
-            Validator.Begin(value, nameof(value))
-                .NotNull()
-                .NotWhiteSpace()
-                .ThrowApiException(nameof(Title), nameof(Title));
+            // Validator.Begin(value, nameof(value))
+            //     .NotNull()
+            //     .NotWhiteSpace()
+            //     .ThrowApiException(nameof(Title), nameof(Title));
             Value = value;
         }
     }

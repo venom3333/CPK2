@@ -13,7 +13,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
     {
         public string Title { get; set; }
         public string ShortDescription { get; set; }
-        public Guid ImageId { get; set; }
+        public Guid? ImageId { get; set; }
 
         public FileDto Image { get; set; }
         public List<ProductDto> Products { get; set; } = new List<ProductDto>();
@@ -22,7 +22,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
         {
             
         }
-        public ProductCategoryDto(Guid id, string token, string title, string shortDescription, Guid imageId)
+        public ProductCategoryDto(Guid id, string token, string title, string shortDescription, Guid? imageId)
         {
             Id = id;
             ConcurrencyToken = token;

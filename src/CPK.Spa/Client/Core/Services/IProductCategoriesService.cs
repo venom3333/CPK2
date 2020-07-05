@@ -15,6 +15,7 @@ namespace CPK.Spa.Client.Core.Services
         Task Delete(ProductCategoryModel model);
         int TotalCount { get; }
         Task Load(ProductCategoriesFilterModel filter);
-        string ImageUri(Guid imageId);
+        string ImageUri(Guid? imageId);
+        void SetError(string error);
     }
 }

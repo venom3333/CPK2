@@ -3,15 +3,17 @@ using System;
 using CPK.Api.SecondaryAdapters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CPK.Api.Migrations
 {
     [DbContext(typeof(CpkContext))]
-    partial class CpkContextModelSnapshot : ModelSnapshot
+    [Migration("20200705133112_FilesRestrictDelete")]
+    partial class FilesRestrictDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,7 +131,7 @@ namespace CPK.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ImageId")
+                    b.Property<Guid>("ImageId")
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("ProductDtoId")
@@ -165,7 +167,7 @@ namespace CPK.Api.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ImageId")
+                    b.Property<Guid>("ImageId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Price")
@@ -219,7 +221,8 @@ namespace CPK.Api.Migrations
                     b.HasOne("CPK.Api.SecondaryAdapters.Dto.FileDto", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("CPK.Api.SecondaryAdapters.Dto.ProductDto", null)
                         .WithMany("ProductCategories")

@@ -23,13 +23,15 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-12">
-            <MatFileUpload OnChange="ImageFileReady"
-                           Style="width: 500px; height: 50px"
-                           Label="Перетащите или выберите изображение">
-            </MatFileUpload>
-            <div>
-                <img width="300" src="@(ViewModel.ImageUrl(ViewModel.ImageId))" />
-            </div>
+            @if (ViewModel.ImageId.HasValue)
+            {
+                <div>
+                    <img width="300" src="@(ViewModel.ImageUrl(ViewModel.ImageId.Value))" />
+                </div>
+                <MatButton OnClick="ClearImage" Label="Удалить"></MatButton>
+            }
+            <InputFile OnChange="HandleFileSelected" />
+            <ValidationMessage For="@(() =>ViewModel.ImageId)" />
         </div>
     </div>
     <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">@(IsCreate ? "Создать" : "Обновить")</button>
@@ -37,13 +39,11 @@
 </EditForm>
 <div>
     <Error Model="@ViewModel.Error" />
-    <Error Model="@Error" />
 </div>
 
 @code {
     [Parameter] public string Id { get; set; }
     private ProductCategoryModel Model { get; set; }
-    private string Error { get; set; }
 
     private bool IsCreate = true;
 
@@ -63,6 +63,10 @@
                 ViewModel.ImageId = Model.ImageId;
                 IsCreate = false;
             }
+            else
+            {
+                ViewModel.ClearViewModelFields();
+            }
         }
         catch (Microsoft.AspNetCore.Components.WebAssembly.Authentication.AccessTokenNotAvailableException ex)
         {
@@ -72,7 +76,9 @@
 
     private async Task CreateCategory()
     {
-        var model = new ProductCategoryModel {
+        ClearErrors();
+        var model = new ProductCategoryModel
+        {
             Title = ViewModel.Title,
             ShortDescription = ViewModel.ShortDescription,
             ImageId = ViewModel.ImageId
@@ -87,7 +93,9 @@
 
     private async Task UpdateCategory()
     {
-        var model = new ProductCategoryModel {
+        ClearErrors();
+        var model = new ProductCategoryModel
+        {
             Id = new Guid(Id),
             Title = ViewModel.Title,
             ShortDescription = ViewModel.ShortDescription,
@@ -107,28 +115,37 @@
         NavigationManager.NavigateTo($"/admin/categories");
     }
 
-    async Task ImageFileReady(IMatFileUploadEntry[] files)
+    private void ClearImage()
+    {
+        ViewModel.ImageId = null;
+    }
+
+    IFileListEntry FileToUpload;
+
+    async Task HandleFileSelected(IFileListEntry[] files)
     {
         try
         {
-            //List<Bitmap> images = new List<Bitmap>();
-            foreach (var file in files)
+            FileToUpload = files.FirstOrDefault();
+            if (FileToUpload == null)
             {
-                if (file == null)
-                {
-                    continue;
-                }
-                await ViewModel.UploadImage(file);
+                return;
             }
+            ViewModel.ImageId = await ViewModel.UploadImage(FileToUpload);
         }
 
         catch (Exception e)
         {
-            Error = $"Error:\r\n{e.Message}\r\n{e.StackTrace}";
+            ViewModel.SetError($"Error:\r\n{e.Message}\r\n{e.StackTrace}");
         }
         finally
         {
             await InvokeAsync(async () => { this.StateHasChanged(); });
         }
+    }
+
+    void ClearErrors()
+    {
+        ViewModel.SetError(default);
     }
 }

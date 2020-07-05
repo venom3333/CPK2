@@ -53,7 +53,7 @@ namespace CPK.Spa.Client.Core.HttpContext
         public async Task<(T, string)> PostFileAsync<T>(string url, FileModel file, bool auth = true)
         {
             var client = GetClient(auth);
-            file.Content.Position = 0;
+            //file.Content.Position = 0;
             using (var form = new MultipartFormDataContent("Upload----" + DateTime.Now.ToString(CultureInfo.InvariantCulture)))
             {
                 form.Add(new StringContent(file.ContentType), nameof(file.ContentType));

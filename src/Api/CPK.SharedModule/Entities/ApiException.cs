@@ -24,6 +24,7 @@ namespace CPK.SharedModule.Entities
         public ApiException(ApiExceptionCode code, Dictionary<string, object> data, string message, Exception inner) : base(message, inner)
         {
             Code = code;
+            data ??= new Dictionary<string, object>();
             foreach (var kvp in data)
             {
                 Data[kvp.Key] = kvp.Value;

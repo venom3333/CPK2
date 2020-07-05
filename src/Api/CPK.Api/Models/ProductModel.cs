@@ -14,7 +14,7 @@ namespace CPK.Api.Models
         public string Version { get; set; }
         public string Title { get; set; }
         public decimal Price { get; set; }
-        public Guid ImageId { get; set; }
+        public Guid? ImageId { get; set; }
 
         public ProductModel()
         {

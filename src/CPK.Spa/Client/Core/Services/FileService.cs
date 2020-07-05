@@ -40,6 +40,13 @@ namespace CPK.Spa.Client.Core.Services
             return result.Guid;
         }
 
+        public async Task<Guid> Upload(FileModel model)
+        {
+            (Guid Guid, string Message) result = await _repository.UploadFile(model);
+            if (!string.IsNullOrWhiteSpace(result.Message)) Error = result.Message.ToString();
+            return result.Guid;
+        }
+
         public async Task<FileModel> Get(Guid id)
         {
             (FileModel Model, string Message) result = await _repository.GetFile(id);

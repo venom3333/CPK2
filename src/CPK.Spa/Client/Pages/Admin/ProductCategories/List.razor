@@ -45,7 +45,12 @@
                 @foreach (var item in ViewModel.List)
                 {
                     <tr>
-                        <td><img width="300" src="@(ViewModel.ImageUrl(item.ImageId))" /></td>
+                        <td>
+                            @if (item.ImageId != null)
+                            {
+                                <img width="300" src="@(ViewModel.ImageUrl(item.ImageId))" />
+                            }
+                        </td>
                         <td>@item.Title</td>
                         <td>@item.ShortDescription</td>
                         <td>

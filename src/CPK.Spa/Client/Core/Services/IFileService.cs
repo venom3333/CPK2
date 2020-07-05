@@ -11,6 +11,7 @@ namespace CPK.Spa.Client.Core.Services
     {
         string Error { get; }
         Task<Guid> Upload(IMatFileUploadEntry entry);
+        Task<Guid> Upload(FileModel model);
         Task<FileModel> Get(Guid id);
         Task Delete(string id);
         string FileUri(FileModel model);

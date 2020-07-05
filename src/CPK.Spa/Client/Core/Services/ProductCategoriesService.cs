@@ -30,7 +30,10 @@ namespace CPK.Spa.Client.Core.Services
             Error = e;
         }
 
-        public string ImageUri(Guid id) => _repository.GetFullUrl($"files/{id}");
+        public string ImageUri(Guid? id) {
+            if (id == null) return "";
+            return _repository.GetFullUrl($"files/{id}");
+        }
 
         public async Task Create(ProductCategoryModel model)
         {
@@ -52,6 +55,11 @@ namespace CPK.Spa.Client.Core.Services
 
         private void ShowErrorIfNecessary(string error) {
             if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
+        }
+
+        public void SetError(string error)
+        {
+            Error = error;
         }
     }
 }
