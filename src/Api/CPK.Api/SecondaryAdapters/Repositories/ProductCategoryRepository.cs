@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CPK.Api.SecondaryAdapters.Dto;
+using CPK.FilesModule.SecondaryPorts;
 using CPK.ProductCategoriesModule.Dto;
 using CPK.ProductCategoriesModule.Entities;
 using CPK.ProductCategoriesModule.SecondaryPorts;
@@ -20,10 +21,12 @@ namespace CPK.Api.SecondaryAdapters.Repositories
     internal sealed class ProductCategoryRepository : IProductCategoriesRepository
     {
         private readonly CpkContext _context;
+        private readonly ICategoryFilesRepository _categoryFiles;
 
-        public ProductCategoryRepository(CpkContext context)
+        public ProductCategoryRepository(CpkContext context, ICategoryFilesRepository categoryFiles)
         {
             _context = context;
+            _categoryFiles = categoryFiles;
         }
 
         public async Task<List<ConcurrencyToken<ProductCategory>>> Get(ProductCategoriesFilter productCategoriesFilter)
@@ -69,7 +72,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
 
             if (productCategory.Entity.Image.Value != originalImageId && originalImageId != null)
             {
-                await TryDeleteImage(originalImageId.Value, original.Id);
+                await _categoryFiles.Remove(originalImageId.Value, original.Id);
             }
         }
 
@@ -80,33 +83,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             _context.DeleteWithToken<Id, ProductCategoryDto, Guid>(id, original);
             if (original.ImageId != null)
             {
-                await TryDeleteImage(original.ImageId.Value, original.Id);
-            }
-        }
-
-        private async Task TryDeleteImage(Guid imageId, Guid productCategoryId = default)
-        {
-            try
-            {
-                var isConstraintExists =
-                    await _context.ProductCategories.AnyAsync(pc =>
-                        pc.Id != productCategoryId && pc.ImageId == imageId);
-                if (!isConstraintExists)
-                {
-                    var image = await _context.Files.FindAsync(imageId);
-                    if (image != null)
-                    {
-                        _context.Files.Remove(image);
-                        if (File.Exists(image.Path))
-                        {
-                            File.Delete(image.Path);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, ex.Message);
+                await _categoryFiles.Remove(original.ImageId.Value, original.Id);
             }
         }
 

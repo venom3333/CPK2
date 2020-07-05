@@ -10,10 +10,10 @@ namespace CPK.FilesModule.PrimaryAdapters
 {
     public class FilesService : IFilesService
     {
-        private readonly IFilesRepository _repository;
+        private readonly ICategoryFilesRepository _repository;
         private readonly IFilesUow _uow;
 
-        public FilesService(IFilesRepository repository, IFilesUow uow)
+        public FilesService(ICategoryFilesRepository repository, IFilesUow uow)
         {
             _repository = repository;
             _uow = uow;

@@ -10,6 +10,7 @@ namespace CPK.Api.SecondaryAdapters.Configs
         {
             builder.HasKey(b => b.Id);
             builder.HasIndex(f => new { f.Hash, f.Size }).IsUnique();
+            builder.ToTable("Files");
         }
     }
 }

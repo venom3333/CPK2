@@ -5,11 +5,12 @@ using CPK.FilesModule.Entities;
 
 namespace CPK.FilesModule.SecondaryPorts
 {
-    public interface IFilesRepository
+    public interface ICategoryFilesRepository
     {
         Task<List<FileBase>> GetAll();
         Task<File> Get(Guid id);
         Task<Guid> Find(byte[] hash, long size);
         Task Add(File file);
+        Task Remove(Guid id, Guid? categoryId = null);
     }
 }

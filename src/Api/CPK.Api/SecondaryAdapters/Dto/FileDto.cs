@@ -5,7 +5,7 @@ using CPK.FilesModule.Entities;
 
 namespace CPK.Api.SecondaryAdapters.Dto
 {
-    public sealed class FileDto
+    public class FileDto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
