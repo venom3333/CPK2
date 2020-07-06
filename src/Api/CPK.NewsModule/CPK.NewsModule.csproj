@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
+      <ProjectReference Include="..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
       <ProjectReference Include="..\CPK.SharedModule\CPK.SharedModule.csproj" />
     </ItemGroup>
 

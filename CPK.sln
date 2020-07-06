@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.ProductsModule", "src\A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.Api", "src\Api\CPK.Api\CPK.Api.csproj", "{C7DD589E-5859-462C-A42C-8BF638359F7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.SharedConfiguration", "CPK.SharedConfiguration\CPK.SharedConfiguration.csproj", "{036C3748-9A20-4C45-AB10-880C761AD8F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.SharedConfiguration", "src\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj", "{036C3748-9A20-4C45-AB10-880C761AD8F6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPK.ProductCategoriesModule", "src\Api\CPK.ProductCategoriesModule\CPK.ProductCategoriesModule.csproj", "{2DA38B14-1F58-42A1-B4A0-EE7E4C420976}"
 EndProject

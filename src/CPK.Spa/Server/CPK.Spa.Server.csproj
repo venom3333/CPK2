@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
+    <ProjectReference Include="..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
     <ProjectReference Include="..\Client\CPK.Spa.Client.csproj" />
   </ItemGroup>
 
