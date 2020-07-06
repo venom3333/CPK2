@@ -18,6 +18,8 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public FileDto Image { get; set; }
         public List<ProductDto> Products { get; set; } = new List<ProductDto>();
 
+        public DateTime Created { get; set; }
+
         public ProductCategoryDto()
         {
             

@@ -20,6 +20,8 @@ namespace CPK.Api.SecondaryAdapters.Configs
                 .WithMany()
                 .HasForeignKey(x => x.ImageId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            entity.Property(e => e.Created).HasDefaultValueSql("NOW()");
         }
     }
 }

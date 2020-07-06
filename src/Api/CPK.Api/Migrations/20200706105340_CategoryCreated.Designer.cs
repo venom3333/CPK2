@@ -3,15 +3,17 @@ using System;
 using CPK.Api.SecondaryAdapters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CPK.Api.Migrations
 {
     [DbContext(typeof(CpkContext))]
-    partial class CpkContextModelSnapshot : ModelSnapshot
+    [Migration("20200706105340_CategoryCreated")]
+    partial class CategoryCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,6 +139,9 @@ namespace CPK.Api.Migrations
                     b.Property<Guid?>("ImageId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("ProductDtoId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("ShortDescription")
                         .HasColumnType("text");
 
@@ -146,6 +151,8 @@ namespace CPK.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ImageId");
+
+                    b.HasIndex("ProductDtoId");
 
                     b.HasIndex("Title")
                         .IsUnique();
@@ -220,6 +227,10 @@ namespace CPK.Api.Migrations
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CPK.Api.SecondaryAdapters.Dto.ProductDto", null)
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("ProductDtoId");
                 });
 
             modelBuilder.Entity("CPK.Api.SecondaryAdapters.Dto.ProductDto", b =>

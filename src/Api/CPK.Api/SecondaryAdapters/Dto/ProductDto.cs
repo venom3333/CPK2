@@ -17,7 +17,6 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public ProductCategoryDto Category { get; set; }
         public List<OrderLineDto> Orders { get; set; } = new List<OrderLineDto>();
         public List<BasketLineDto> Baskets { get; set; } = new List<BasketLineDto>();
-        public List<ProductCategoryDto> ProductCategories { get; set; } = new List<ProductCategoryDto>();
 
         public ProductDto()
         {
