@@ -5,11 +5,11 @@ namespace CPK.Api.SecondaryAdapters.UnitsOfWork
 {
     internal sealed class ProductCategoriesUow : UnitOfWorkBase, IProductCategoriesUow
     {
-        public ProductCategoriesUow(CpkContext context, IProductCategoriesRepository productCategories) : base(context)
+        public ProductCategoriesUow(CpkContext context, IProductCategoriesRepository repository) : base(context)
         {
-            ProductCategories = productCategories;
+            Repository = repository;
         }
 
-        public IProductCategoriesRepository ProductCategories { get; }
+        public IProductCategoriesRepository Repository { get; }
     }
 }

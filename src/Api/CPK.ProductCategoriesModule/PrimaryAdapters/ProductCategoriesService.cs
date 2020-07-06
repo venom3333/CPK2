@@ -12,19 +12,17 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
     public sealed class ProductCategoriesService : IProductCategoriesService
     {
         private readonly IProductCategoriesUow _uow;
-        private readonly IProductCategoriesRepository _repository;
 
-        public ProductCategoriesService(IProductCategoriesUow uow, IProductCategoriesRepository repository)
+        public ProductCategoriesService(IProductCategoriesUow uow)
         {
             _uow = uow;
-            _repository = repository;
         }
 
         public async Task<int> Add(ProductCategory request)
         {
             if (request == null)
                 throw new ArgumentNullException(nameof(request));
-            await _repository.Add(request);
+            await _uow.Repository.Add(request);
             return await _uow.SaveAsync();
         }
 
@@ -32,8 +30,8 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
         {
             if (request == default)
                 throw new ArgumentOutOfRangeException(nameof(request));
-            var productCategory = await _repository.Get(request);
-            var total = await _repository.Count(request);
+            var productCategory = await _uow.Repository.Get(request);
+            var total = await _uow.Repository.Count(request);
             return new PageResult<ConcurrencyToken<ProductCategory>>(request.PageFilter, productCategory, (uint)total);
         }
 
@@ -41,7 +39,7 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
         {
             if (request.Entity == default || string.IsNullOrWhiteSpace(request.Token))
                 throw new ArgumentNullException(nameof(request));
-            await _repository.Remove(request);
+            await _uow.Repository.Remove(request);
             var count = await _uow.SaveAsync();
             return count;
         }
@@ -50,7 +48,7 @@ namespace CPK.ProductCategoriesModule.PrimaryAdapters
         {
             if (request.Entity == null || string.IsNullOrWhiteSpace(request.Token))
                 throw new ArgumentNullException(nameof(request));
-            await _repository.Update(request);
+            await _uow.Repository.Update(request);
             var count = await _uow.SaveAsync();
             return count;
         }

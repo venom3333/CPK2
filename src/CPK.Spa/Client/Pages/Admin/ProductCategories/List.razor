@@ -54,13 +54,14 @@
                         <td>@item.Title</td>
                         <td>@item.ShortDescription</td>
                         <td>
-                            <input type="button"
-                                   value="Редактировать"
-                                   class="btn btn-success"
-                                   @onclick="@(async x => Edit(item.Id.ToString(), x))" />
-
                             @{ if (IdForDelete == null || IdForDelete != item.Id)
                                 {
+                                    <input type="button"
+                                           value="Редактировать"
+                                           class="btn btn-success"
+                                           @onclick="@(async x => Edit(item.Id.ToString(), x))" />
+
+
                                     <input type="button"
                                            value="Удалить"
                                            class="btn btn-warning"
@@ -71,7 +72,7 @@
                                     if (IdForDelete == item.Id)
                                     {
                                         <input type="button"
-                                               value="Подтвердить"
+                                               value="Подтвердить удаление"
                                                class="btn btn-danger"
                                                @onclick="@(x => DeleteConfirm())" />
                                         <input type="button"
