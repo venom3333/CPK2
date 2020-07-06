@@ -117,7 +117,7 @@ namespace CPK.Api
             
             services.AddTransient<IErrorConverter, ErrorConverter>();
             services.AddTransient<IFilesUow, FilesUow>();
-            services.AddTransient<ICategoryFilesRepository, CategoryFilesRepository>();
+            services.AddTransient<IFilesRepository, FilesRepository>();
             services.AddTransient<IFilesService, FilesService>();
             services.AddTransient<IConfigRepository, ConfigRepository>();
             IdentityModelEventSource.ShowPII = true;

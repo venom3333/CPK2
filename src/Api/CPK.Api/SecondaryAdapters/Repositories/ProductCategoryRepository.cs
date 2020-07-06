@@ -21,12 +21,12 @@ namespace CPK.Api.SecondaryAdapters.Repositories
     internal sealed class ProductCategoryRepository : IProductCategoriesRepository
     {
         private readonly CpkContext _context;
-        private readonly ICategoryFilesRepository _categoryFiles;
+        private readonly IFilesRepository _files;
 
-        public ProductCategoryRepository(CpkContext context, ICategoryFilesRepository categoryFiles)
+        public ProductCategoryRepository(CpkContext context, IFilesRepository files)
         {
             _context = context;
-            _categoryFiles = categoryFiles;
+            _files = files;
         }
 
         public async Task<List<ConcurrencyToken<ProductCategory>>> Get(ProductCategoriesFilter productCategoriesFilter)
@@ -72,7 +72,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
 
             if (productCategory.Entity.Image.Value != originalImageId && originalImageId != null)
             {
-                await _categoryFiles.Remove(originalImageId.Value, original.Id);
+                await _files.Remove(originalImageId.Value, original.Id);
             }
         }
 
@@ -83,7 +83,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             _context.DeleteWithToken<Id, ProductCategoryDto, Guid>(id, original);
             if (original.ImageId != null)
             {
-                await _categoryFiles.Remove(original.ImageId.Value, original.Id);
+                await _files.Remove(original.ImageId.Value, original.Id);
             }
         }
 

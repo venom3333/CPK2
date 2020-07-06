@@ -5,7 +5,7 @@ using CPK.FilesModule.Entities;
 
 namespace CPK.FilesModule.SecondaryPorts
 {
-    public interface ICategoryFilesRepository
+    public interface IFilesRepository
     {
         Task<List<FileBase>> GetAll();
         Task<File> Get(Guid id);

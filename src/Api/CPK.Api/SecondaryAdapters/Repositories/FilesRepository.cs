@@ -12,25 +12,25 @@ using File = CPK.FilesModule.Entities.File;
 
 namespace CPK.Api.SecondaryAdapters.Repositories
 {
-    internal sealed class CategoryFilesRepository : ICategoryFilesRepository
+    internal sealed class FilesRepository : IFilesRepository
     {
         private readonly CpkContext _context;
         private readonly IConfig _config;
 
-        public CategoryFilesRepository(CpkContext context, IConfig config)
+        public FilesRepository(CpkContext context, IConfig config)
         {
             _context = context;
             _config = config;
         }
         public async Task<List<FileBase>> GetAll()
         {
-            var files = await _context.CategoryFiles.ToListAsync();
+            var files = await _context.Files.ToListAsync();
             return files.Select(f => f.ToInfo()).ToList();
         }
 
         public async Task<File> Get(Guid id)
         {
-            var file = await _context.CategoryFiles.FindAsync(id);
+            var file = await _context.Files.FindAsync(id);
             return file?.ToFile();
         }
         
@@ -43,10 +43,10 @@ namespace CPK.Api.SecondaryAdapters.Repositories
                         pc.Id != categoryId && pc.ImageId == id);
                 if (!isConstraintExists)
                 {
-                    var image = await _context.CategoryFiles.FindAsync(id);
+                    var image = await _context.Files.FindAsync(id);
                     if (image != null)
                     {
-                        _context.CategoryFiles.Remove(image);
+                        _context.Files.Remove(image);
                         if (System.IO.File.Exists(image.Path))
                         {
                             System.IO.File.Delete(image.Path);
@@ -62,7 +62,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
 
         public async Task<Guid> Find(byte[] hash, long size)
         {
-            var file = await _context.CategoryFiles.FirstOrDefaultAsync(f => f.Hash == hash && f.Size == size);
+            var file = await _context.Files.FirstOrDefaultAsync(f => f.Hash == hash && f.Size == size);
             return file?.Id ?? default;
         }
 
@@ -72,7 +72,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             await using var stream = new FileStream(path, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, bufferSize: 4_000_000);
             await file.Data.CopyToAsync(stream);
             await stream.FlushAsync();
-            await _context.CategoryFiles.AddAsync(new CategoryFileDto(file, path));
+            await _context.Files.AddAsync(new FileDto(file, path));
         }
     }
 }

@@ -62,10 +62,6 @@ namespace CPK.Api.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<byte[]>("Hash")
                         .HasColumnType("bytea");
 
@@ -84,8 +80,6 @@ namespace CPK.Api.Migrations
                         .IsUnique();
 
                     b.ToTable("Files");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("FileDto");
                 });
 
             modelBuilder.Entity("CPK.Api.SecondaryAdapters.Dto.OrderDto", b =>
@@ -188,13 +182,6 @@ namespace CPK.Api.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("CPK.Api.SecondaryAdapters.Dto.CategoryFileDto", b =>
-                {
-                    b.HasBaseType("CPK.Api.SecondaryAdapters.Dto.FileDto");
-
-                    b.HasDiscriminator().HasValue("CategoryFileDto");
                 });
 
             modelBuilder.Entity("CPK.Api.SecondaryAdapters.Dto.BasketLineDto", b =>
