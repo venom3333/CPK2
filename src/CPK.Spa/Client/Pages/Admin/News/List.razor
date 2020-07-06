@@ -12,7 +12,7 @@
     <button @onclick="@Create">Создать новость</button>
 </div>
 <div class="jumbotron col-md-6">
-    <EditForm EditContext="@ViewModel.FilterFormEditContext" OnValidSubmit="@ViewModel.HandleValidSubmit">
+    <EditForm EditContext="@ViewModel.FilterFormEditContext" OnSubmit="@ViewModel.HandleValidSubmit">
         <DataAnnotationsValidator/>
         <div class="form-row">
             <div class="form-group col-md-12">
@@ -21,7 +21,7 @@
                 <ValidationMessage For="@(() => ViewModel.Title)"/>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" disabled="@(!context.Validate())">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </EditForm>
 </div>
 
