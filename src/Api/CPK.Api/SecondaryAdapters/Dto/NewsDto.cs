@@ -20,6 +20,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public FileDto Image { get; set; }
 
         public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
 
         public NewsDto()
         {

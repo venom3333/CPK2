@@ -12,6 +12,9 @@ using CPK.BasketModule.SecondaryPorts;
 using CPK.FilesModule.PrimaryAdapters;
 using CPK.FilesModule.PrimaryPorts;
 using CPK.FilesModule.SecondaryPorts;
+using CPK.NewsModule.PrimaryAdapters;
+using CPK.NewsModule.PrimaryPorts;
+using CPK.NewsModule.SecondaryPorts;
 using CPK.OrdersModule.PrimaryAdapters;
 using CPK.OrdersModule.PrimaryPorts;
 using CPK.OrdersModule.SecondaryPorts;
@@ -104,14 +107,17 @@ namespace CPK.Api
             services.AddTransient<IBasketUow, BasketUow>();
             services.AddTransient<IProductsUow, ProductsUow>();
             services.AddTransient<IProductCategoriesUow, ProductCategoriesUow>();
+            services.AddTransient<INewsUow, NewsUow>();
             
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IBasketRepository, BasketRepository>();
             services.AddTransient<IProductsRepository, ProductRepository>();
             services.AddTransient<IProductCategoriesRepository, ProductCategoryRepository>();
+            services.AddTransient<INewsRepository, NewsRepository>();
             
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IProductCategoriesService, ProductCategoriesService>();
+            services.AddTransient<INewsService, NewsService>();
             services.AddTransient<IBasketService, BasketService>();
             services.AddTransient<IOrderService, OrderService>();
             

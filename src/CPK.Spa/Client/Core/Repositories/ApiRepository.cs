@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using CPK.Contracts;
 using CPK.Spa.Client.Core.HttpContext;
 using CPK.Spa.Client.Core.Models;
+using CPK.Spa.Client.Core.Models.News;
+using CPK.Spa.Client.Core.Models.ProductCategories;
+using CPK.Spa.Client.Core.Models.Products;
 using MatBlazor;
 
 namespace CPK.Spa.Client.Core.Repositories
@@ -26,12 +29,6 @@ namespace CPK.Spa.Client.Core.Repositories
         {
             var url = GetFullUrl("/products/filter");
             return _http.PostAsync<PageResultModel<ProductModel>>(url, model, false);
-        }
-
-        public Task<(PageResultModel<ProductCategoryModel>, string)> GetFilteredProductCategories(ProductCategoriesFilterModel model)
-        {
-            var url = GetFullUrl("/productCategories/filter");
-            return _http.PostAsync<PageResultModel<ProductCategoryModel>>(url, model, false);
         }
 
         public Task<(int, string)> AddToBasket(ProductModel product)
@@ -78,6 +75,12 @@ namespace CPK.Spa.Client.Core.Repositories
             return $"{uri}api/v1{path}";
         }
 
+        // Categories
+        public Task<(PageResultModel<ProductCategoryModel>, string)> GetFilteredProductCategories(ProductCategoriesFilterModel model)
+        {
+            var url = GetFullUrl("/productCategories/filter");
+            return _http.PostAsync<PageResultModel<ProductCategoryModel>>(url, model, false);
+        }
         public Task<(Guid, string)> CreateCategory(ProductCategoryModel model)
         {
             var url = GetFullUrl("/productCategories/add");
@@ -96,6 +99,31 @@ namespace CPK.Spa.Client.Core.Repositories
             return _http.DeleteAsync<int>(url);
         }
 
+        // News
+        public Task<(PageResultModel<NewsModel>, string)> GetFilteredNews(NewsFilterModel model)
+        {
+            var url = GetFullUrl("/news/filter");
+            return _http.PostAsync<PageResultModel<NewsModel>>(url, model, false);
+        }
+        public Task<(Guid, string)> CreateNews(NewsModel model)
+        {
+            var url = GetFullUrl("/news/add");
+            return _http.PostAsync<Guid>(url, model);
+        }
+
+        public Task<(int, string)> UpdateNews(NewsModel model)
+        {
+            var url = GetFullUrl("/news/Update");
+            return _http.PutAsync<int>(url, model);
+        }
+
+        public Task<(int, string)> RemoveNews(Guid id, string version)
+        {
+            var url = GetFullUrl($"/news/remove/{id}/{version}");
+            return _http.DeleteAsync<int>(url);
+        }
+        
+        // Files
         public async Task<(Guid, string)> UploadFile(FileModel model)
         {
             var url = GetFullUrl("/files/upload");
@@ -105,6 +133,7 @@ namespace CPK.Spa.Client.Core.Repositories
 
         public async Task<(FileModel, string)> GetFile(Guid id)
         {
+            await Task.CompletedTask;
             throw new NotImplementedException();
         }
     }

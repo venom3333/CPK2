@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CPK.Spa.Client.Core.Models;
+using CPK.Spa.Client.Core.Models.Products;
 using CPK.Spa.Client.Core.Repositories;
 
 namespace CPK.Spa.Client.Core.Services

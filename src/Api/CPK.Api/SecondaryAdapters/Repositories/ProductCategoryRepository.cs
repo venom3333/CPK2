@@ -68,6 +68,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             var originalImageId = original.ImageId;
 
             original.ImageId = productCategory.Entity.Image.Value;
+            original.Updated = DateTime.Now;
             _context.UpdateWithToken<ProductCategory, ProductCategoryDto, Guid>(productCategory, original);
 
             if (productCategory.Entity.Image.Value != originalImageId && originalImageId != null)

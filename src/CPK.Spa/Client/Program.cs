@@ -8,8 +8,13 @@ using CPK.Spa.Client.Core.Authentication;
 using CPK.Spa.Client.Core.HttpContext;
 using CPK.Spa.Client.Core.Repositories;
 using CPK.Spa.Client.Core.Services;
+using CPK.Spa.Client.Core.Services.News;
+using CPK.Spa.Client.Core.Services.ProductCategories;
+using CPK.Spa.Client.Core.Services.Products;
 using CPK.Spa.Client.ViewModels;
-
+using CPK.Spa.Client.ViewModels.News;
+using CPK.Spa.Client.ViewModels.ProductCategories;
+using CPK.Spa.Client.ViewModels.Products;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -92,10 +97,12 @@ namespace CPK.Spa.Client
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IProductCategoriesService, ProductCategoriesService>();
+            services.AddScoped<INewsService, NewsService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<ProductsViewModel>();
             services.AddScoped<ProductCategoriesViewModel>();
+            services.AddScoped<NewsViewModel>();
             services.AddScoped<BasketViewModel>();
             services.AddScoped<OrdersViewModel>();
         }

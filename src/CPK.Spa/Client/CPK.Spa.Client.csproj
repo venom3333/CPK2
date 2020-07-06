@@ -9,6 +9,12 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Update="Pages\Admin\News\Create.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Update="Pages\Admin\News\List.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

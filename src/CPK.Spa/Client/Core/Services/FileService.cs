@@ -56,6 +56,7 @@ namespace CPK.Spa.Client.Core.Services
 
         public async Task Delete(string id)
         {
+            await Task.CompletedTask;
             throw new NotImplementedException();
         }
     }

@@ -4,22 +4,18 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-
 using BlazorInputFile;
-
-using CPK.Spa.Client.Attributes;
 using CPK.Spa.Client.Core.Models;
+using CPK.Spa.Client.Core.Models.ProductCategories;
 using CPK.Spa.Client.Core.Services;
+using CPK.Spa.Client.Core.Services.ProductCategories;
 using CPK.Spa.Client.Models;
-
 using MatBlazor;
-
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 
-namespace CPK.Spa.Client.ViewModels
+namespace CPK.Spa.Client.ViewModels.ProductCategories
 {
     public class ProductCategoriesViewModel
     {

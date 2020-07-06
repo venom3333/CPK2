@@ -1,4 +1,4 @@
-﻿namespace CPK.Spa.Client.ViewModels
+﻿namespace CPK.Spa.Client.ViewModels.ProductCategories
 {
     public enum ProductCategoryViewModelState
     {

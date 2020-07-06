@@ -19,6 +19,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
         public List<ProductDto> Products { get; set; } = new List<ProductDto>();
 
         public DateTime Created { get; set; }
+        public DateTime Updated { get; set; }
 
         public ProductCategoryDto()
         {

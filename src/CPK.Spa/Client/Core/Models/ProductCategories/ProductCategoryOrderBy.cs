@@ -1,4 +1,4 @@
-﻿namespace CPK.Spa.Client.Core.Models
+﻿namespace CPK.Spa.Client.Core.Models.ProductCategories
 {
     public enum ProductCategoryOrderBy
     {

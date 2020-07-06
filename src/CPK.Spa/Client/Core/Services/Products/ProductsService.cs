@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using CPK.Spa.Client.Core.Models;
+using CPK.Spa.Client.Core.Models.Products;
 using CPK.Spa.Client.Core.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace CPK.Spa.Client.Core.Services
+namespace CPK.Spa.Client.Core.Services.Products
 {
     public class ProductsService : IProductsService
     {

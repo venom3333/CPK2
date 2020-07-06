@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CPK.Spa.Client.Core.Models
+namespace CPK.Spa.Client.Core.Models.ProductCategories
 {
     public sealed class ProductCategoriesFilterModel
     {

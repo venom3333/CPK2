@@ -11,6 +11,6 @@ namespace CPK.FilesModule.SecondaryPorts
         Task<File> Get(Guid id);
         Task<Guid> Find(byte[] hash, long size);
         Task Add(File file);
-        Task Remove(Guid id, Guid? categoryId = null);
+        Task Remove(Guid id, Guid? parentEntityId = null);
     }
 }

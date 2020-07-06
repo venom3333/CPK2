@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CPK.Spa.Client.Core.Models.ProductCategories;
 
-using CPK.Spa.Client.Core.Models;
-
-namespace CPK.Spa.Client.Core.Services
+namespace CPK.Spa.Client.Core.Services.ProductCategories
 {
     public interface IProductCategoriesService
     {

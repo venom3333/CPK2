@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CPK.Spa.Client.Core.Models;
+using CPK.Spa.Client.Core.Models.ProductCategories;
 using CPK.Spa.Client.Core.Repositories;
 using Microsoft.Extensions.Logging;
 
-namespace CPK.Spa.Client.Core.Services
+namespace CPK.Spa.Client.Core.Services.ProductCategories
 {
     public class ProductCategoriesService : IProductCategoriesService
     {
@@ -54,7 +55,7 @@ namespace CPK.Spa.Client.Core.Services
         }
 
         private void ShowErrorIfNecessary(string error) {
-            if (!string.IsNullOrWhiteSpace(error)) Error = error.ToString();
+            if (!string.IsNullOrWhiteSpace(error)) Error = error;
         }
 
         public void SetError(string error)

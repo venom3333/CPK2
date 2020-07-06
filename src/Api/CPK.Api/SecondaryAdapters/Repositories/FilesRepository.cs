@@ -22,6 +22,7 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             _context = context;
             _config = config;
         }
+
         public async Task<List<FileBase>> GetAll()
         {
             var files = await _context.Files.ToListAsync();
@@ -33,14 +34,21 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             var file = await _context.Files.FindAsync(id);
             return file?.ToFile();
         }
-        
-        public async Task Remove(Guid id, Guid? categoryId = null)
+
+        public async Task Remove(Guid id, Guid? parentEntityId = null)
         {
             try
             {
                 var isConstraintExists =
                     await _context.ProductCategories.AnyAsync(pc =>
-                        pc.Id != categoryId && pc.ImageId == id);
+                        pc.Id != parentEntityId && pc.ImageId == id);
+                if (!isConstraintExists)
+                {
+                    isConstraintExists =
+                        await _context.News.AnyAsync(parentEntity =>
+                            parentEntity.Id != parentEntityId && parentEntity.ImageId == id);
+                }
+
                 if (!isConstraintExists)
                 {
                     var image = await _context.Files.FindAsync(id);
@@ -69,7 +77,8 @@ namespace CPK.Api.SecondaryAdapters.Repositories
         public async Task Add(File file)
         {
             var path = Path.Combine(_config.FilesDir, $"{file.Created:yyyy_MM_dd_hh_mm_ss_fff}_{file.Id}");
-            await using var stream = new FileStream(path, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None, bufferSize: 4_000_000);
+            await using var stream = new FileStream(path, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None,
+                bufferSize: 4_000_000);
             await file.Data.CopyToAsync(stream);
             await stream.FlushAsync();
             await _context.Files.AddAsync(new FileDto(file, path));

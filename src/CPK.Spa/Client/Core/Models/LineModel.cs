@@ -1,4 +1,6 @@
-﻿namespace CPK.Spa.Client.Core.Models
+﻿using CPK.Spa.Client.Core.Models.Products;
+
+namespace CPK.Spa.Client.Core.Models
 {
     public class LineModel
     {

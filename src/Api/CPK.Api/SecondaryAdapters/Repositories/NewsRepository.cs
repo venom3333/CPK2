@@ -59,10 +59,12 @@ namespace CPK.Api.SecondaryAdapters.Repositories
             var original = await _context.News.SingleAsync(p => p.Id == news.Entity.Id.Value);
             original.ShortDescription = news.Entity.ShortDescription.Value;
             original.Title = news.Entity.Title.Value;
+            original.Text = news.Entity.Text.Value;
 
             var originalImageId = original.ImageId;
 
             original.ImageId = news.Entity.Image.Value;
+            original.Updated = DateTime.Now;
             _context.UpdateWithToken<News, NewsDto, Guid>(news, original);
 
             if (news.Entity.Image.Value != originalImageId && originalImageId != null)

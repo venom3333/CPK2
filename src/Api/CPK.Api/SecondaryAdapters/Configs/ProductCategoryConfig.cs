@@ -22,6 +22,7 @@ namespace CPK.Api.SecondaryAdapters.Configs
                 .OnDelete(DeleteBehavior.Restrict);
 
             entity.Property(e => e.Created).HasDefaultValueSql("NOW()");
+            entity.Property(e => e.Updated).HasDefaultValueSql("NOW()");
         }
     }
 }
