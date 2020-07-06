@@ -21,6 +21,7 @@ namespace CPK.Api.SecondaryAdapters
 
         public DbSet<ProductDto> Products { get; set; }
         public DbSet<ProductCategoryDto> ProductCategories { get; set; }
+        public DbSet<NewsDto> News { get; set; }
         
         public DbSet<BasketDto> Baskets { get; set; }
         public DbSet<BasketLineDto> BasketLines { get; set; }

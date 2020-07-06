@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CPK.Api.Models
+namespace CPK.Api.Models.Products
 {
     public sealed class AddProductModel
     {

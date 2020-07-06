@@ -1,4 +1,5 @@
-﻿using CPK.BasketModule.Entities;
+﻿using CPK.Api.Models.Products;
+using CPK.BasketModule.Entities;
 using CPK.OrdersModule.Entities;
 
 namespace CPK.Api.Models

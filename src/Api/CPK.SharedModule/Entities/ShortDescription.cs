@@ -1,13 +1,10 @@
-﻿using CPK.SharedModule.Entities;
-using FluentValidationGuard;
-
-namespace CPK.ProductCategoriesModule.Entities
+﻿namespace CPK.SharedModule.Entities
 {
-    public readonly struct ProductCategoryShortDescription
+    public readonly struct ShortDescription
     {
         public string Value { get; }
 
-        public ProductCategoryShortDescription(string value)
+        public ShortDescription(string value)
         {
             // Validator.Begin(value, nameof(value))
             //     .NotNull()

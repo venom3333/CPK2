@@ -1,12 +1,11 @@
 ﻿using System;
-
 using CPK.BasketModule.Entities;
 using CPK.OrdersModule.Entities;
 using CPK.ProductsModule.Entities;
 using CPK.SharedModule;
 using CPK.SharedModule.Entities;
 
-namespace CPK.Api.Models
+namespace CPK.Api.Models.Products
 {
     public sealed class ProductModel
     {

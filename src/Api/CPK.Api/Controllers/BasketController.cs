@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using CPK.Api.Helpers;
 using CPK.Api.Models;
+using CPK.Api.Models.Products;
 using CPK.BasketModule.Entities;
 using CPK.BasketModule.PrimaryPorts;
 using Microsoft.AspNetCore.Authorization;

@@ -1,9 +1,7 @@
-﻿using CPK.ProductCategoriesModule.Dto;
-using CPK.ProductsModule.Dto;
+﻿using System;
+using CPK.ProductCategoriesModule.Dto;
 
-using System;
-
-namespace CPK.Api.Models
+namespace CPK.Api.Models.ProductCategories
 {
     public sealed class ProductCategoriesFilterModel
     {

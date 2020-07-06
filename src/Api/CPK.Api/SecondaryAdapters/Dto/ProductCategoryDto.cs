@@ -34,7 +34,7 @@ namespace CPK.Api.SecondaryAdapters.Dto
         }
 
         public ConcurrencyToken<ProductCategory> ToProductCategory() =>
-            new ConcurrencyToken<ProductCategory>(ConcurrencyToken, new ProductCategory(new Id(Id), new Title(Title), new ProductCategoryShortDescription(ShortDescription), new Image(ImageId)));
+            new ConcurrencyToken<ProductCategory>(ConcurrencyToken, new ProductCategory(new Id(Id), new Title(Title), new ShortDescription(ShortDescription), new Image(ImageId)));
 
         public ProductCategoryDto(ProductCategory productCategory, string version) :
             this(productCategory.Id.Value, version, productCategory.Title.Value, productCategory.ShortDescription.Value, productCategory.Image.Value)

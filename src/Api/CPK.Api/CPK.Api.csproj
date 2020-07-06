@@ -21,6 +21,7 @@
     <ProjectReference Include="..\..\..\CPK.SharedConfiguration\CPK.SharedConfiguration.csproj" />
     <ProjectReference Include="..\CPK.BasketModule\CPK.BasketModule.csproj" />
     <ProjectReference Include="..\CPK.FilesModule\CPK.FilesModule.csproj" />
+    <ProjectReference Include="..\CPK.NewsModule\CPK.NewsModule.csproj" />
     <ProjectReference Include="..\CPK.OrdersModule\CPK.OrdersModule.csproj" />
     <ProjectReference Include="..\CPK.ProductCategoriesModule\CPK.ProductCategoriesModule.csproj" />
     <ProjectReference Include="..\CPK.ProductsModule\CPK.ProductsModule.csproj" />

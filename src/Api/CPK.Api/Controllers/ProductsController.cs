@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 using CPK.Api.Models;
+using CPK.Api.Models.Products;
 using CPK.ProductsModule.Dto;
 using CPK.ProductsModule.Entities;
 using CPK.ProductsModule.PrimaryPorts;

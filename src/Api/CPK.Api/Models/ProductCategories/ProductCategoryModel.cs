@@ -1,13 +1,9 @@
 ﻿using System;
-
-using CPK.BasketModule.Entities;
-using CPK.OrdersModule.Entities;
 using CPK.ProductCategoriesModule.Entities;
-using CPK.ProductsModule.Entities;
 using CPK.SharedModule;
 using CPK.SharedModule.Entities;
 
-namespace CPK.Api.Models
+namespace CPK.Api.Models.ProductCategories
 {
     public sealed class ProductCategoryModel
     {
@@ -37,7 +33,7 @@ namespace CPK.Api.Models
                 new ProductCategory(
                     new Id(Id),
                     new Title(Title),
-                    new ProductCategoryShortDescription(ShortDescription),
+                    new ShortDescription(ShortDescription),
                     new Image(ImageId)));
     }
 }
